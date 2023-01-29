@@ -1,3 +1,4 @@
+import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,11 +8,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Daytrack by Andi',
+      title: StringValue.titleApp,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
