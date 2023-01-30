@@ -1,5 +1,6 @@
 import 'package:daytrack_apps/core/network/network_info.dart';
 import 'package:daytrack_apps/core/service_locator/service_locator.dart';
+import 'package:daytrack_apps/features/authentication/di/authentication_dependencies.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +12,7 @@ class Injection {
   }
 
   void _registerDependencies() {
-    // TODO: Register Feature Dependency : Eg. NumberTriviaDependencies();
+    AuthenticationDependencies();
   }
 
   Future<void> _registerCoreDependencies() async {

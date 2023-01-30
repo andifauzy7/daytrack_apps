@@ -9,8 +9,34 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/onboarding_first.webp
+  AssetGenImage get onboardingFirst =>
+      const AssetGenImage('assets/images/onboarding_first.webp');
+
+  /// File path: assets/images/onboarding_second.webp
+  AssetGenImage get onboardingSecond =>
+      const AssetGenImage('assets/images/onboarding_second.webp');
+
+  /// File path: assets/images/onboarding_third.webp
+  AssetGenImage get onboardingThird =>
+      const AssetGenImage('assets/images/onboarding_third.webp');
+
+  /// File path: assets/images/sign_in_illustration.webp
+  AssetGenImage get signInIllustration =>
+      const AssetGenImage('assets/images/sign_in_illustration.webp');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [onboardingFirst, onboardingSecond, onboardingThird, signInIllustration];
+}
+
 class Assets {
   Assets._();
+
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {

@@ -2,8 +2,8 @@ import 'package:sizer/sizer.dart';
 
 class CalculateSize {
   CalculateSize._();
-  static const _width = 720;
-  static const _height = 1280;
+  static const _width = 390;
+  static const _height = 844;
 
   static getWidth(int width) => ((width / _width) * 100).w;
 
