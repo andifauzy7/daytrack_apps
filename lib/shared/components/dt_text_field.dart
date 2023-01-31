@@ -25,15 +25,23 @@ class DTTextField extends StatelessWidget {
   const DTTextField({
     super.key,
     required this.type,
+    this.focusNode,
     this.hintText,
     this.borderRadius,
     this.prefixIcon,
+    this.textInputType,
+    this.onChanged,
+    this.errorText,
   });
 
   final DTTextFieldType type;
+  final FocusNode? focusNode;
   final String? hintText;
+  final String? errorText;
   final double? borderRadius;
   final Widget? prefixIcon;
+  final TextInputType? textInputType;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +51,11 @@ class DTTextField extends StatelessWidget {
         vertical: CalculateSize.getHeight(10),
       ),
       child: TextField(
+        focusNode: focusNode,
+        keyboardType: textInputType,
         obscureText: type.obscureValue,
         cursorColor: ColorFamily.tealPrimary,
+        onChanged: onChanged,
         style: const TextStyle(
           fontFamily: FontFamily.inter,
           fontSize: 15,
@@ -55,6 +66,8 @@ class DTTextField extends StatelessWidget {
           isDense: true,
           hintText: hintText,
           prefixIcon: prefixIcon,
+          errorText: errorText,
+          errorMaxLines: 2,
           suffixIcon: type == DTTextFieldType.password
               ? const Icon(Icons.remove_red_eye_outlined)
               : null,
@@ -72,6 +85,14 @@ class DTTextField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderSide:
                 const BorderSide(width: 1, color: ColorFamily.tealPrimary),
+            borderRadius: BorderRadius.circular(borderRadius ?? 4),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: Colors.red),
+            borderRadius: BorderRadius.circular(borderRadius ?? 4),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: Colors.red),
             borderRadius: BorderRadius.circular(borderRadius ?? 4),
           ),
         ),

@@ -1,6 +1,7 @@
-import 'package:daytrack_apps/features/attendance/presentation/history/widgets/history_attendance_card.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/widgets.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});

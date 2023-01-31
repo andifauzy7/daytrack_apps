@@ -1,196 +1,108 @@
+import 'package:daytrack_apps/core/service_locator/service_locator.dart';
+import 'package:daytrack_apps/features/authentication/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/sign_in/page/sign_in_page.dart';
-import 'package:daytrack_apps/features/authentication/presentation/widgets/authentication_text_theme.dart';
-import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
-import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../utils/onboarding_content.dart';
+import '../widgets/widgets.dart';
 
-class OnboardingPage extends StatefulWidget {
+class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
 
-  @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
-}
+  bool _showPreviousButton(OnboardingState state) => state.indexContent != 0;
 
-class _OnboardingPageState extends State<OnboardingPage> {
-  int indexOnboarding = 0;
+  bool _showSkipButton(OnboardingState state) =>
+      state.indexContent == (state.lengthContent - 1);
 
-  List<OnboardingContent> contentOnboarding = [
-    OnboardingContent(
-      picture: Assets.images.onboardingFirst.path,
-      title: StringValue.onboardFirstTitle,
-      subtitle: StringValue.onboardFirstSubtitle,
-    ),
-    OnboardingContent(
-      picture: Assets.images.onboardingSecond.path,
-      title: StringValue.onboardSecondTitle,
-      subtitle: StringValue.onboardSecondSubtitle,
-    ),
-    OnboardingContent(
-      picture: Assets.images.onboardingThird.path,
-      title: StringValue.onboardThirdTitle,
-      subtitle: StringValue.onboardThirdSubtitle,
-    ),
-  ];
+  void _navigateToSignInPage(BuildContext context) => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const SignInPage(),
+        ),
+      );
 
-  void increment() => setState(() {
-        indexOnboarding += 1;
-      });
+  void _dispatchPrevious(BuildContext context) =>
+      BlocProvider.of<OnboardingBloc>(context).add(
+        OnboardingPreviousStep(),
+      );
 
-  void decrement() => setState(() {
-        indexOnboarding -= 1;
-      });
+  void _dispatchSkip(BuildContext context) =>
+      BlocProvider.of<OnboardingBloc>(context).add(
+        OnboardingSkipStep(),
+      );
 
-  void nextPage() {
-    if (indexOnboarding + 1 >= contentOnboarding.length) {
-      navigateToSignInPage();
-    } else {
-      increment();
-    }
-  }
-
-  void navigateToSignInPage() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => const SignInPage(),
-      ),
-    );
-  }
+  void _dispatchNext(BuildContext context) =>
+      BlocProvider.of<OnboardingBloc>(context).add(
+        OnboardingNextStep(),
+      );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Image.asset(
-            contentOnboarding[indexOnboarding].picture,
-            gaplessPlayback: true,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: BlocProvider(
+        create: (_) => sl.get<OnboardingBloc>(),
+        child: BlocConsumer<OnboardingBloc, OnboardingState>(
+          listener: (context, state) {
+            if (state is OnboardingNavigateToSignIn) {
+              _navigateToSignInPage(context);
+            }
+          },
+          builder: (context, state) {
+            return Stack(
               children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    left: CalculateSize.getWidth(18),
-                    right: CalculateSize.getWidth(29),
-                    top: CalculateSize.getHeight(22),
-                  ),
-                  child: Row(
+                OnboardingImage(url: state.onboardingContent.picture),
+                SafeArea(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Visibility(
-                        visible: indexOnboarding != 0,
-                        child: InkWell(
-                          onTap: decrement,
-                          child: const Icon(
-                            Icons.chevron_left,
-                            color: Colors.white,
-                          ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: CalculateSize.getWidth(18),
+                          right: CalculateSize.getWidth(29),
+                          top: CalculateSize.getHeight(22),
+                        ),
+                        child: OnboardingHeader(
+                          showPreviousButton: _showPreviousButton(state),
+                          showSkipText: _showSkipButton(state),
+                          onPrevious: () => _dispatchPrevious(context),
+                          onSkip: () => _dispatchSkip(context),
+                        ),
+                      ),
+                      const Spacer(
+                        flex: 4,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: CalculateSize.getWidth(30),
+                        ),
+                        child: OnboardingTextContent(
+                          title: state.onboardingContent.title,
+                          subtitle: state.onboardingContent.subtitle,
                         ),
                       ),
                       const Spacer(
                         flex: 1,
                       ),
-                      indexOnboarding == (contentOnboarding.length - 1)
-                          ? const SizedBox.shrink()
-                          : InkWell(
-                              onTap: navigateToSignInPage,
-                              child: const Text(
-                                StringValue.onboardSkip,
-                                style: AuthenticationTextTheme.skipText,
-                              ),
-                            )
-                    ],
-                  ),
-                ),
-                const Spacer(
-                  flex: 4,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: CalculateSize.getWidth(30),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        contentOnboarding[indexOnboarding].title,
-                        style: AuthenticationTextTheme.headlineText,
-                      ),
-                      Text(
-                        contentOnboarding[indexOnboarding].subtitle,
-                        style: AuthenticationTextTheme.subtitleText,
-                      ),
-                    ],
-                  ),
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                Container(
-                  padding: EdgeInsets.only(
-                    left: CalculateSize.getWidth(30),
-                    right: CalculateSize.getWidth(30),
-                    bottom: CalculateSize.getHeight(58),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(children: [
-                        for (int i = 0; i < contentOnboarding.length; i++)
-                          AnimatedContainer(
-                            width: indexOnboarding == i
-                                ? CalculateSize.getWidth(50)
-                                : CalculateSize.getWidth(30),
-                            margin: EdgeInsets.only(
-                              right: CalculateSize.getWidth(5),
-                            ),
-                            height: CalculateSize.getHeight(8),
-                            decoration: BoxDecoration(
-                              color: indexOnboarding == i
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.white,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
-                            duration: const Duration(milliseconds: 300),
-                          )
-                      ]),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      InkWell(
-                        onTap: nextPage,
-                        child: Container(
-                          width: CalculateSize.getWidth(40),
-                          height: CalculateSize.getWidth(40),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: CalculateSize.getWidth(30),
+                          right: CalculateSize.getWidth(30),
+                          bottom: CalculateSize.getHeight(58),
+                        ),
+                        child: OnboardingFooter(
+                          current: state.indexContent,
+                          length: state.lengthContent,
+                          onNext: () => _dispatchNext(context),
                         ),
                       ),
                     ],
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,7 +1,8 @@
-import 'package:daytrack_apps/features/timeline/presentation/timeline/widgets/news_card.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
+import 'package:daytrack_apps/shared/url_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../widgets/widgets.dart';
 
 class TimelinePage extends StatelessWidget {
   const TimelinePage({super.key});
@@ -25,7 +26,7 @@ class TimelinePage extends StatelessWidget {
             itemCount: 5,
             itemBuilder: (context, index) => NewsCard(
               index: index,
-              onPressed: () => _launchUrl(
+              onPressed: () => urlLauncher(
                 Uri.parse(
                     'https://kabarjombang.com/tekno/daftar-aplikasi-bikin-boros-baterai-ponsel/'),
               ),
@@ -34,11 +35,5 @@ class TimelinePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _launchUrl(Uri url) async {
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
   }
 }

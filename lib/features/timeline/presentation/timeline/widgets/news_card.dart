@@ -1,5 +1,5 @@
-import 'package:daytrack_apps/features/main/presentation/widgets/main_text_theme.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
+import 'package:daytrack_apps/gen/fonts.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
 
@@ -46,16 +46,23 @@ class NewsCard extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         'Daftar Aplikasi Bikin Boros Baterai Ponsel - Kabar Jombang',
-                        style: MainTextTheme.assignmentTitleText,
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: FontFamily.montserrat,
+                              color: ColorFamily.blackPrimary,
+                            ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         'JOMBANG, KabarJombang.com - Sejumlah aplikasi yang umum digunakan publik ternyata menguras baterai handphone atau ponsel. Apa saja aplikasinya? Daftar',
-                        style: MainTextTheme.assignmentSubtitleText,
+                        style: Theme.of(context).textTheme.caption!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: ColorFamily.greyPrimary,
+                            ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),

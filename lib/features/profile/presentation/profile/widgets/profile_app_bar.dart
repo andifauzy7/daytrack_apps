@@ -1,4 +1,3 @@
-import 'package:daytrack_apps/features/main/presentation/widgets/main_text_theme.dart';
 import 'package:flutter/material.dart';
 
 class ProfileAppBar extends StatelessWidget {
@@ -12,12 +11,15 @@ class ProfileAppBar extends StatelessWidget {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               'Profile',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: MainTextTheme.homeHeadingLight,
+              style: Theme.of(context).textTheme.headline5!.copyWith(
+                    fontSize: 16,
+                    color: Theme.of(context).canvasColor,
+                  ),
             ),
           ],
         ),

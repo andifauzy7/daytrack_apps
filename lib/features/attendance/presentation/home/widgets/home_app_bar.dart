@@ -1,5 +1,5 @@
-import 'package:daytrack_apps/features/main/presentation/widgets/main_text_theme.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
+import 'package:daytrack_apps/gen/fonts.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
 
@@ -32,13 +32,19 @@ class HomeAppBar extends StatelessWidget {
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: MainTextTheme.homeTitleAppBar,
+              style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    fontFamily: FontFamily.montserrat,
+                    color: Theme.of(context).canvasColor,
+                  ),
             ),
             Text(
               name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: MainTextTheme.homeHeadingLight,
+              style: Theme.of(context).textTheme.headline5!.copyWith(
+                    fontSize: 16,
+                    color: Theme.of(context).canvasColor,
+                  ),
             ),
           ],
         ),

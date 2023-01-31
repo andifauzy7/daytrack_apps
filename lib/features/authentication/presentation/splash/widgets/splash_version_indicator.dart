@@ -1,4 +1,3 @@
-import 'package:daytrack_apps/gen/fonts.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +26,10 @@ class SplashVersionIndicator extends StatelessWidget {
           ),
           child: Text(
             StringValue.versionApp,
-            style: TextStyle(
-              fontFamily: FontFamily.inter,
-              color: Theme.of(context).canvasColor,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                  color: Theme.of(context).canvasColor,
+                  fontWeight: FontWeight.w400,
+                ),
           ),
         )
       ],

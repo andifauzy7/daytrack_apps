@@ -1,4 +1,3 @@
-import 'package:daytrack_apps/features/main/presentation/widgets/main_text_theme.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,10 @@ class HomeAttendanceCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: MainTextTheme.homeTitleCard,
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: ColorFamily.blackPrimary,
+                      ),
                 ),
                 StreamBuilder(
                   stream: Stream.periodic(const Duration(seconds: 1)),
@@ -50,13 +52,19 @@ class HomeAttendanceCard extends StatelessWidget {
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: MainTextTheme.homeSubtitleCard,
+                      style: Theme.of(context).textTheme.caption!.copyWith(
+                            color: ColorFamily.blackPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
                     );
                   },
                 ),
-                const Text(
+                Text(
                   'Lihat Info Presensi',
-                  style: MainTextTheme.homeSubtitleColoredCard,
+                  style: Theme.of(context).textTheme.caption!.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: ColorFamily.tealPrimary,
+                      ),
                 ),
               ],
             ),

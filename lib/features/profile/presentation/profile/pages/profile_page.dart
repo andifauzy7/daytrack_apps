@@ -1,5 +1,4 @@
 import 'package:daytrack_apps/features/attendance/presentation/home/widgets/home_header.dart';
-import 'package:daytrack_apps/features/main/presentation/widgets/main_text_theme.dart';
 import 'package:daytrack_apps/features/profile/presentation/profile/widgets/profile_app_bar.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
@@ -43,32 +42,52 @@ class ProfilePage extends StatelessWidget {
                 child: Column(children: [
                   Text(
                     'Amanda Khairunisa',
-                    style: MainTextTheme.profileName,
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          fontSize: 16,
+                          color: ColorFamily.blackPrimary,
+                        ),
                   ),
                   Text(
                     'amanda.kh@daytrack.com',
-                    style: MainTextTheme.profileStudyData,
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: ColorFamily.blackPrimary,
+                        ),
                   ),
                 ]),
               ),
               Text(
                 'Divisi',
-                style: MainTextTheme.profileStudyData,
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: ColorFamily.blackPrimary,
+                    ),
               ),
               Text(
                 'MARKETING',
-                style: MainTextTheme.profileDataTable,
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 18,
+                      color: ColorFamily.blackPrimary,
+                    ),
               ),
               SizedBox(
                 height: CalculateSize.getHeight(20),
               ),
               Text(
                 'Supervisor',
-                style: MainTextTheme.profileStudyData,
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: ColorFamily.blackPrimary,
+                    ),
               ),
               Text(
                 'REYNALDI S',
-                style: MainTextTheme.profileDataTable,
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 18,
+                      color: ColorFamily.blackPrimary,
+                    ),
               ),
             ],
           ),

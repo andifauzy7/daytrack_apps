@@ -1,6 +1,7 @@
 import 'package:daytrack_apps/core/injection/injection.dart';
 import 'package:daytrack_apps/features/authentication/presentation/splash/page/splash_page.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
+import 'package:daytrack_apps/gen/fonts.gen.dart';
 import 'package:daytrack_apps/shared/color_to_material_color.dart';
 import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,32 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: getMaterialColor(ColorFamily.tealPrimary),
           canvasColor: ColorFamily.canvasPrimary,
+          textTheme: const TextTheme(
+            headline4: TextStyle(
+              fontSize: 32,
+              fontFamily: FontFamily.montserrat,
+              fontWeight: FontWeight.w700,
+            ),
+            headline5: TextStyle(
+              fontSize: 24,
+              fontFamily: FontFamily.montserrat,
+              fontWeight: FontWeight.w700,
+            ),
+            subtitle1: TextStyle(
+              fontSize: 16,
+              fontFamily: FontFamily.inter,
+              fontWeight: FontWeight.w600,
+            ),
+            subtitle2: TextStyle(
+              fontSize: 14,
+              fontFamily: FontFamily.inter,
+              fontWeight: FontWeight.w500,
+            ),
+            caption: TextStyle(
+              fontSize: 12,
+              fontFamily: FontFamily.inter,
+            ),
+          ),
         ),
         home: const SplashPage(),
       ),

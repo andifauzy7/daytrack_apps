@@ -21,11 +21,11 @@ class _MainPageState extends State<MainPage> {
       body: SafeArea(
         child: IndexedStack(
           index: indexPage,
-          children: [
+          children: const [
             HomePage(),
-            const HistoryPage(),
-            const TimelinePage(),
-            const ProfilePage(),
+            HistoryPage(),
+            TimelinePage(),
+            ProfilePage(),
           ],
         ),
       ),

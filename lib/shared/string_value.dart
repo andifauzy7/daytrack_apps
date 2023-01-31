@@ -25,4 +25,7 @@ class StringValue {
   static const signInHaventAccount = 'Belum Memiliki Akun?';
   static const signInCallHumanResource = 'Hubungi HRD Anda';
   static const signInEntry = 'Masuk';
+  static const signInEmailError = 'Please ensure the email entered is valid';
+  static const signInPasswordError =
+      'Password must be at least 8 characters and contain at least one letter and number';
 }
