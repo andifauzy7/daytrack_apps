@@ -65,6 +65,7 @@ class DTElevatedButton extends StatelessWidget {
     required this.onPressed,
     required this.text,
     required this.type,
+    this.fontSize,
     this.dynamicWidth,
   });
 
@@ -72,6 +73,7 @@ class DTElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final DTElevatedButtonType type;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,7 @@ class DTElevatedButton extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: type.textStyle,
+            style: type.textStyle.copyWith(fontSize: fontSize),
           ),
         ),
       ),

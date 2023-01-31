@@ -1,3 +1,4 @@
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/pages/check_attendance_page.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
 
@@ -45,10 +46,16 @@ class HomePage extends StatelessWidget {
                     vertical: CalculateSize.getHeight(8),
                   ),
                   child: HomeAttendanceCard(
+                    type: HomeAttendanceCardType.checkIn,
                     title: 'Saatnya Check-In',
                     subtitle: '21:13 WIB',
                     actionText: 'Check-In',
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CheckAttendancePage(),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

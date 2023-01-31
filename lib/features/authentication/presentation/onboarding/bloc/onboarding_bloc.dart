@@ -1,3 +1,5 @@
+import 'package:daytrack_apps/core/usecase/usecase.dart';
+import 'package:daytrack_apps/features/authentication/domain/usecases/set_onboarding_session_usecase.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:equatable/equatable.dart';
@@ -9,6 +11,7 @@ part 'onboarding_event.dart';
 part 'onboarding_state.dart';
 
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
+  final SetOnboardingSessionUsecase setOnboardingSessionUsecase;
   int indexOnboarding = 0;
   static List<OnboardingContent> contentOnboarding = [
     OnboardingContent(
@@ -28,7 +31,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     ),
   ];
 
-  OnboardingBloc()
+  OnboardingBloc({required this.setOnboardingSessionUsecase})
       : super(
           OnboardingLoaded(
             onboardingContent: contentOnboarding[0],
@@ -36,52 +39,62 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
             lengthContent: contentOnboarding.length,
           ),
         ) {
-    on<OnboardingEvent>((event, emit) {
-      if (event is OnboardingSkipStep) {
-        emit(
-          OnboardingNavigateToSignIn(
-            onboardingContent: contentOnboarding[indexOnboarding],
-            lengthContent: contentOnboarding.length,
-            indexContent: indexOnboarding,
-          ),
-        );
-      }
+    on<OnboardingSkipStep>(_skipStepHandler);
+    on<OnboardingNextStep>(_nextStepHandler);
+    on<OnboardingPreviousStep>(_prevStepHandler);
+  }
 
-      if (event is OnboardingNextStep) {
-        if (indexOnboarding + 1 >= contentOnboarding.length) {
-          emit(
-            OnboardingNavigateToSignIn(
-              onboardingContent: contentOnboarding[indexOnboarding],
-              lengthContent: contentOnboarding.length,
-              indexContent: indexOnboarding,
-            ),
-          );
-        } else {
-          increment();
-          emit(
-            OnboardingLoaded(
-              onboardingContent: contentOnboarding[indexOnboarding],
-              lengthContent: contentOnboarding.length,
-              indexContent: indexOnboarding,
-            ),
-          );
-        }
-      }
+  Future<void> _skipStepHandler(
+      OnboardingSkipStep event, Emitter<OnboardingState> emit) async {
+    await setOnboardingSessionUsecase(
+      NoParams(),
+    );
+    emit(
+      OnboardingNavigateToSignIn(
+        onboardingContent: contentOnboarding[indexOnboarding],
+        lengthContent: contentOnboarding.length,
+        indexContent: indexOnboarding,
+      ),
+    );
+  }
 
-      if (event is OnboardingPreviousStep) {
-        decrement();
-        emit(
-          OnboardingLoaded(
-            onboardingContent: contentOnboarding[indexOnboarding],
-            lengthContent: contentOnboarding.length,
-            indexContent: indexOnboarding,
-          ),
-        );
-      }
-    });
+  Future<void> _nextStepHandler(
+      OnboardingNextStep event, Emitter<OnboardingState> emit) async {
+    if (indexOnboarding + 1 >= contentOnboarding.length) {
+      await setOnboardingSessionUsecase(
+        NoParams(),
+      );
+      emit(
+        OnboardingNavigateToSignIn(
+          onboardingContent: contentOnboarding[indexOnboarding],
+          lengthContent: contentOnboarding.length,
+          indexContent: indexOnboarding,
+        ),
+      );
+    } else {
+      increment();
+      emit(
+        OnboardingLoaded(
+          onboardingContent: contentOnboarding[indexOnboarding],
+          lengthContent: contentOnboarding.length,
+          indexContent: indexOnboarding,
+        ),
+      );
+    }
+  }
+
+  Future<void> _prevStepHandler(
+      OnboardingPreviousStep event, Emitter<OnboardingState> emit) async {
+    decrement();
+    emit(
+      OnboardingLoaded(
+        onboardingContent: contentOnboarding[indexOnboarding],
+        lengthContent: contentOnboarding.length,
+        indexContent: indexOnboarding,
+      ),
+    );
   }
 
   void increment() => indexOnboarding += 1;
-
   void decrement() => indexOnboarding -= 1;
 }

@@ -1,3 +1,5 @@
+import 'package:daytrack_apps/features/authentication/domain/entities/user_sign_in.dart';
+import 'package:daytrack_apps/features/authentication/domain/usecases/set_login_session_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -8,7 +10,9 @@ part 'sign_in_event.dart';
 part 'sign_in_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  SignInBloc() : super(const SignInState()) {
+  final SetLoginSessionUsecase setLoginSessionUsecase;
+  SignInBloc({required this.setLoginSessionUsecase})
+      : super(const SignInState()) {
     on<SignInEmailChanged>(_onEmailChanged);
     on<SignInPasswordChanged>(_onPasswordChanged);
     on<SignInEmailUnfocused>(_onEmailUnfocused);
@@ -76,8 +80,25 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     );
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
-      await Future<void>.delayed(const Duration(seconds: 1));
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      final setSession = await setLoginSessionUsecase(
+        SetLoginSessionParams(
+          user: UserSignIn(
+            email: email.value,
+            password: password.value,
+          ),
+        ),
+      );
+      await Future<void>.delayed(
+        const Duration(seconds: 2),
+      );
+      setSession.fold(
+        (_) => emit(
+          state.copyWith(status: FormzStatus.submissionFailure),
+        ),
+        (value) => emit(
+          state.copyWith(status: FormzStatus.submissionSuccess),
+        ),
+      );
     }
   }
 }

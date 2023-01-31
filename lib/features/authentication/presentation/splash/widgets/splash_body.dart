@@ -1,5 +1,5 @@
-import 'package:daytrack_apps/features/authentication/presentation/onboarding/page/onboarding_page.dart';
 import 'package:daytrack_apps/features/authentication/presentation/splash/bloc/splash_bloc.dart';
+import 'package:daytrack_apps/shared/constants_value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets.dart';
@@ -24,12 +24,24 @@ class _SplashBodyState extends State<SplashBody> {
   Widget build(BuildContext context) {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
-        if (state is SplashLoaded) {
-          Navigator.pushReplacement(
+        if (state is SplashNavigateToOnboarding) {
+          Navigator.pushReplacementNamed(
             context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => const OnboardingPage(),
-            ),
+            ConstantsValue.onboardingRoute,
+          );
+        }
+
+        if (state is SplashNavigateToSignIn) {
+          Navigator.pushReplacementNamed(
+            context,
+            ConstantsValue.loginRoute,
+          );
+        }
+
+        if (state is SplashNavigateToMain) {
+          Navigator.pushReplacementNamed(
+            context,
+            ConstantsValue.mainRoute,
           );
         }
       },

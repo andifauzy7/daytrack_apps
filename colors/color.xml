@@ -4,5 +4,6 @@
     <color name="black_primary">#161616</color>
     <color name="teal_primary">#309794</color>
     <color name="teal_secondary">#E6FFF9</color>
+    <color name="teal_third">#EDF2F6</color>
     <color name="canvas_primary">#FAFAFA</color>
 </resources>

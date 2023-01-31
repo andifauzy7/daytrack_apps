@@ -27,4 +27,7 @@ class ColorFamily {
 
   /// Color: #E6FFF9
   static const Color tealSecondary = Color(0xFFE6FFF9);
+
+  /// Color: #EDF2F6
+  static const Color tealThird = Color(0xFFEDF2F6);
 }

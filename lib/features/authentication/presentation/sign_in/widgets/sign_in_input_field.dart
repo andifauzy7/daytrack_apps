@@ -4,6 +4,7 @@ import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
 import 'package:daytrack_apps/shared/components/dt_text_field.dart';
+import 'package:daytrack_apps/shared/constants_value.dart';
 import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +29,17 @@ class _SignInInputFieldState extends State<SignInInputField> {
     super.initState();
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
-        context.read<SignInBloc>().add(SignInEmailUnfocused());
+        BlocProvider.of<SignInBloc>(context).add(
+          SignInEmailUnfocused(),
+        );
         FocusScope.of(context).requestFocus(_passwordFocusNode);
       }
     });
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus) {
-        context.read<SignInBloc>().add(SignInPasswordUnfocused());
+        BlocProvider.of<SignInBloc>(context).add(
+          SignInPasswordUnfocused(),
+        );
       }
     });
   }
@@ -51,10 +56,29 @@ class _SignInInputFieldState extends State<SignInInputField> {
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
-          ///
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          Navigator.pushReplacementNamed(
+            context,
+            ConstantsValue.mainRoute,
+          );
+        }
+        if (state.status.isSubmissionFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Text(StringValue.signInFailure),
+              ),
+            );
         }
         if (state.status.isSubmissionInProgress) {
-          ///
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Text(StringValue.signInLoading),
+              ),
+            );
         }
       },
       child: Container(
@@ -81,9 +105,9 @@ class _SignInInputFieldState extends State<SignInInputField> {
                   errorText:
                       state.email.invalid ? StringValue.signInEmailError : null,
                   onChanged: (value) {
-                    context.read<SignInBloc>().add(
-                          SignInEmailChanged(email: value),
-                        );
+                    BlocProvider.of<SignInBloc>(context).add(
+                      SignInEmailChanged(email: value),
+                    );
                   },
                   type: DTTextFieldType.text,
                   hintText: StringValue.signInHintEmail,
@@ -98,9 +122,9 @@ class _SignInInputFieldState extends State<SignInInputField> {
                       ? StringValue.signInPasswordError
                       : null,
                   onChanged: (value) {
-                    context.read<SignInBloc>().add(
-                          SignInPasswordChanged(password: value),
-                        );
+                    BlocProvider.of<SignInBloc>(context).add(
+                      SignInPasswordChanged(password: value),
+                    );
                   },
                   type: DTTextFieldType.password,
                   hintText: StringValue.signInHintPassword,
@@ -131,18 +155,9 @@ class _SignInInputFieldState extends State<SignInInputField> {
               ),
             ),
             DTElevatedButton(
-                onPressed: () => {
-                      /*
-                      context.read<SignInBloc>().add(
-                            SignInFormSubmitted(),
-                          )*/
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const MainPage(),
-                        ),
-                      )
-                    },
+                onPressed: () => context.read<SignInBloc>().add(
+                      SignInFormSubmitted(),
+                    ),
                 text: StringValue.signInEntry,
                 type: DTElevatedButtonType.primary),
           ],

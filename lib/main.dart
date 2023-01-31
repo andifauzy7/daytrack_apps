@@ -1,8 +1,12 @@
 import 'package:daytrack_apps/core/injection/injection.dart';
+import 'package:daytrack_apps/features/authentication/presentation/onboarding/page/onboarding_page.dart';
+import 'package:daytrack_apps/features/authentication/presentation/sign_in/page/sign_in_page.dart';
 import 'package:daytrack_apps/features/authentication/presentation/splash/page/splash_page.dart';
+import 'package:daytrack_apps/features/main/presentation/main/page/main_page.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/gen/fonts.gen.dart';
 import 'package:daytrack_apps/shared/color_to_material_color.dart';
+import 'package:daytrack_apps/shared/constants_value.dart';
 import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -55,7 +59,13 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const SplashPage(),
+        initialRoute: ConstantsValue.initialRoute,
+        routes: {
+          ConstantsValue.initialRoute: (context) => const SplashPage(),
+          ConstantsValue.onboardingRoute: (context) => const OnboardingPage(),
+          ConstantsValue.loginRoute: (context) => const SignInPage(),
+          ConstantsValue.mainRoute: (context) => const MainPage(),
+        },
       ),
     );
   }
