@@ -1,9 +1,10 @@
 import 'package:daytrack_apps/features/attendance/presentation/home/widgets/home_header.dart';
-import 'package:daytrack_apps/features/profile/presentation/profile/widgets/profile_app_bar.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/profile_app_bar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

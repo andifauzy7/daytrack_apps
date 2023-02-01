@@ -1,8 +1,10 @@
 part of 'main_bloc.dart';
 
-abstract class MainEvent extends Equatable {
-  const MainEvent();
+class MainEvent extends Equatable {
+  final int index;
+
+  const MainEvent({required this.index});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [index];
 }

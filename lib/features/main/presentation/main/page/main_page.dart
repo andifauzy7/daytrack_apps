@@ -1,61 +1,43 @@
+import 'package:daytrack_apps/core/service_locator/service_locator.dart';
 import 'package:daytrack_apps/features/attendance/presentation/history/pages/history_page.dart';
 import 'package:daytrack_apps/features/attendance/presentation/home/pages/home_page.dart';
-import 'package:daytrack_apps/features/profile/presentation/profile/pages/profile_page.dart';
+import 'package:daytrack_apps/features/attendance/presentation/profile/pages/profile_page.dart';
+import 'package:daytrack_apps/features/main/presentation/main/bloc/main_bloc.dart';
 import 'package:daytrack_apps/features/timeline/presentation/timeline/pages/timeline_page.dart';
-import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MainPage extends StatefulWidget {
+import '../widgets/widgets.dart';
+
+class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  int indexPage = 0;
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: indexPage,
-          children: const [
-            HomePage(),
-            HistoryPage(),
-            TimelinePage(),
-            ProfilePage(),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: indexPage,
-        unselectedItemColor: ColorFamily.greyPrimary,
-        onTap: (value) => setState(() {
-          indexPage = value;
-        }),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '',
-          ),
-        ],
+    return BlocProvider(
+      create: (_) => sl.get<MainBloc>(),
+      child: BlocBuilder<MainBloc, int>(
+        builder: (context, state) {
+          return Scaffold(
+            body: SafeArea(
+              child: IndexedStack(
+                index: state,
+                children: const [
+                  HomePage(),
+                  HistoryPage(),
+                  TimelinePage(),
+                  ProfilePage(),
+                ],
+              ),
+            ),
+            bottomNavigationBar: MainBottomNavBar(
+              index: state,
+              onTap: (value) => BlocProvider.of<MainBloc>(context).add(
+                MainEvent(index: value),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
