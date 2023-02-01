@@ -58,8 +58,8 @@ class _TimelineBodyState extends State<TimelineBody> {
             }
 
             if (state is TimelineError) {
-              return Center(
-                child: Text(state.message),
+              return TimelineErrorWidget(
+                errorMessage: state.message,
               );
             }
 
