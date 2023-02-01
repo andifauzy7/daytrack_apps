@@ -54,21 +54,28 @@ class _CheckAttendancePageState extends State<CheckAttendancePage> {
             : null,
         body: IndexedStack(index: index, children: [
           AttendanceCondition(
-            onNext: () => setState(() {
-              index += 1;
-            }),
+            onNext: (val) {
+              print(val);
+              setState(() {
+                index += 1;
+              });
+            },
           ),
           AttendanceLocation(
-            onNext: () => setState(() {
-              index += 1;
-            }),
+            onNext: (val) {
+              print(val);
+              setState(() {
+                index += 1;
+              });
+            },
             onPrevious: () => setState(() {
               index -= 1;
             }),
           ),
           AttendanceSurvey(
-            onNext: () => {
-              _showMyDialog(),
+            onNext: (val) {
+              print(val);
+              _showMyDialog();
             },
             onPrevious: () => setState(() {
               index -= 1;

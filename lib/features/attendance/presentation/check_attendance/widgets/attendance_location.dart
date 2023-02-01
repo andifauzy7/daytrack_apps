@@ -4,16 +4,24 @@ import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
 import 'package:flutter/material.dart';
 
-class AttendanceLocation extends StatelessWidget {
+import 'widgets.dart';
+
+class AttendanceLocation extends StatefulWidget {
   const AttendanceLocation({
     Key? key,
     required this.onNext,
     required this.onPrevious,
   }) : super(key: key);
 
-  final VoidCallback onNext;
+  final Function(int) onNext;
   final VoidCallback onPrevious;
 
+  @override
+  State<AttendanceLocation> createState() => _AttendanceLocationState();
+}
+
+class _AttendanceLocationState extends State<AttendanceLocation> {
+  int? index;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -92,101 +100,29 @@ class AttendanceLocation extends StatelessWidget {
                         child: ListView(
                           physics: const BouncingScrollPhysics(),
                           children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(6),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(12),
-                                horizontal: CalculateSize.getHeight(12),
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorFamily.greyPrimary,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.radio_button_off,
-                                    color: ColorFamily.greyPrimary,
-                                  ),
-                                  SizedBox(
-                                    width: CalculateSize.getWidth(8),
-                                  ),
-                                  const Text('Kantor'),
-                                  const Spacer(),
-                                  const Text('🏢')
-                                ],
-                              ),
+                            OptionTile(
+                              selected: index == 0,
+                              title: 'Kantor',
+                              emoji: '🏢',
+                              onTap: () => setState(() {
+                                index = 0;
+                              }),
                             ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(6),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(12),
-                                horizontal: CalculateSize.getHeight(12),
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorFamily.greyPrimary,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.radio_button_off,
-                                    color: ColorFamily.greyPrimary,
-                                  ),
-                                  SizedBox(
-                                    width: CalculateSize.getWidth(8),
-                                  ),
-                                  const Text('Rumah'),
-                                  const Spacer(),
-                                  const Text('🏡')
-                                ],
-                              ),
+                            OptionTile(
+                              selected: index == 1,
+                              title: 'Rumah',
+                              emoji: '🏡',
+                              onTap: () => setState(() {
+                                index = 1;
+                              }),
                             ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(6),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(12),
-                                horizontal: CalculateSize.getHeight(12),
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorFamily.greyPrimary,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.radio_button_off,
-                                    color: ColorFamily.greyPrimary,
-                                  ),
-                                  SizedBox(
-                                    width: CalculateSize.getWidth(8),
-                                  ),
-                                  const Text('Lainnya'),
-                                  const Spacer(),
-                                  const Text('📍')
-                                ],
-                              ),
+                            OptionTile(
+                              selected: index == 2,
+                              title: 'Lainnya',
+                              emoji: '📍',
+                              onTap: () => setState(() {
+                                index = 2;
+                              }),
                             ),
                           ],
                         ),
@@ -195,7 +131,7 @@ class AttendanceLocation extends StatelessWidget {
                         children: [
                           Expanded(
                             child: DTElevatedButton(
-                              onPressed: onPrevious,
+                              onPressed: widget.onPrevious,
                               text: 'Sebelumnya',
                               type: DTElevatedButtonType.secondary,
                             ),
@@ -205,9 +141,11 @@ class AttendanceLocation extends StatelessWidget {
                           ),
                           Expanded(
                             child: DTElevatedButton(
-                              onPressed: onNext,
+                              onPressed: () => widget.onNext(index!),
                               text: 'Selanjutnya',
-                              type: DTElevatedButtonType.primary,
+                              type: index != null
+                                  ? DTElevatedButtonType.primary
+                                  : DTElevatedButtonType.disabled,
                             ),
                           )
                         ],

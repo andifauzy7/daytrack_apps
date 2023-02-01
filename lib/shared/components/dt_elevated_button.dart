@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 enum DTElevatedButtonType {
   primary,
   secondary,
+  disabled,
 }
 
 extension DTElevatedButtonExtension on DTElevatedButtonType {
@@ -23,11 +24,20 @@ extension DTElevatedButtonExtension on DTElevatedButtonType {
       fontWeight: FontWeight.w500,
     );
 
+    const disabledStyle = TextStyle(
+      fontSize: 15,
+      fontFamily: FontFamily.inter,
+      color: ColorFamily.blackPrimary,
+      fontWeight: FontWeight.w500,
+    );
+
     switch (this) {
       case DTElevatedButtonType.primary:
         return primaryStyle;
       case DTElevatedButtonType.secondary:
         return secondaryStyle;
+      case DTElevatedButtonType.disabled:
+        return disabledStyle;
       default:
         return primaryStyle;
     }
@@ -48,11 +58,18 @@ extension DTElevatedButtonExtension on DTElevatedButtonType {
       ),
     );
 
+    final disabledBackground = ElevatedButton.styleFrom(
+      backgroundColor: ColorFamily.greyPrimary,
+      shadowColor: Colors.white,
+    );
+
     switch (this) {
       case DTElevatedButtonType.primary:
         return primaryBackground;
       case DTElevatedButtonType.secondary:
         return secondaryBackground;
+      case DTElevatedButtonType.disabled:
+        return disabledBackground;
       default:
         return primaryBackground;
     }
@@ -78,7 +95,11 @@ class DTElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: () {
+        if (type != DTElevatedButtonType.disabled) {
+          onPressed();
+        }
+      },
       style: type.background,
       child: SizedBox(
         width: dynamicWidth == true ? null : double.infinity,

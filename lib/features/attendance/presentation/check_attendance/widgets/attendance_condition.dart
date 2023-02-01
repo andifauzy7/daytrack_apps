@@ -4,14 +4,22 @@ import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
 import 'package:flutter/material.dart';
 
-class AttendanceCondition extends StatelessWidget {
+import 'widgets.dart';
+
+class AttendanceCondition extends StatefulWidget {
   const AttendanceCondition({
     Key? key,
     required this.onNext,
   }) : super(key: key);
 
-  final VoidCallback onNext;
+  final Function(int) onNext;
 
+  @override
+  State<AttendanceCondition> createState() => _AttendanceConditionState();
+}
+
+class _AttendanceConditionState extends State<AttendanceCondition> {
+  int? index;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -68,110 +76,40 @@ class AttendanceCondition extends StatelessWidget {
                         child: ListView(
                           physics: const BouncingScrollPhysics(),
                           children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(6),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(12),
-                                horizontal: CalculateSize.getHeight(12),
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorFamily.greyPrimary,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.radio_button_off,
-                                    color: ColorFamily.greyPrimary,
-                                  ),
-                                  SizedBox(
-                                    width: CalculateSize.getWidth(8),
-                                  ),
-                                  const Text('Sehat'),
-                                  const Spacer(),
-                                  const Text('😇')
-                                ],
-                              ),
+                            OptionTile(
+                              selected: index == 0,
+                              title: 'Sehat',
+                              emoji: '😇',
+                              onTap: () => setState(() {
+                                index = 0;
+                              }),
                             ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(6),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(12),
-                                horizontal: CalculateSize.getHeight(12),
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorFamily.greyPrimary,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.radio_button_off,
-                                    color: ColorFamily.greyPrimary,
-                                  ),
-                                  SizedBox(
-                                    width: CalculateSize.getWidth(8),
-                                  ),
-                                  const Text('Kurang Fit'),
-                                  const Spacer(),
-                                  const Text('🤧')
-                                ],
-                              ),
+                            OptionTile(
+                              selected: index == 1,
+                              title: 'Kurang Fit',
+                              emoji: '🤧',
+                              onTap: () => setState(() {
+                                index = 1;
+                              }),
                             ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(6),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: CalculateSize.getHeight(12),
-                                horizontal: CalculateSize.getHeight(12),
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorFamily.greyPrimary,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.radio_button_off,
-                                    color: ColorFamily.greyPrimary,
-                                  ),
-                                  SizedBox(
-                                    width: CalculateSize.getWidth(8),
-                                  ),
-                                  const Text('Sakit'),
-                                  const Spacer(),
-                                  const Text('😷')
-                                ],
-                              ),
+                            OptionTile(
+                              selected: index == 2,
+                              title: 'Sakit',
+                              emoji: '😷',
+                              onTap: () => setState(() {
+                                index = 2;
+                              }),
                             ),
                           ],
                         ),
                       ),
                       DTElevatedButton(
-                        onPressed: onNext,
+                        onPressed: () => widget.onNext(index!),
                         text: 'Selanjutnya',
-                        type: DTElevatedButtonType.primary,
-                      )
+                        type: index != null
+                            ? DTElevatedButtonType.primary
+                            : DTElevatedButtonType.disabled,
+                      ),
                     ]),
               ),
             )

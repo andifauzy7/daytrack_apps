@@ -3,16 +3,24 @@ import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
 import 'package:flutter/material.dart';
 
-class AttendanceSurvey extends StatelessWidget {
+import 'widgets.dart';
+
+class AttendanceSurvey extends StatefulWidget {
   const AttendanceSurvey({
     Key? key,
     required this.onNext,
     required this.onPrevious,
   }) : super(key: key);
 
-  final VoidCallback onNext;
+  final Function(int) onNext;
   final VoidCallback onPrevious;
 
+  @override
+  State<AttendanceSurvey> createState() => _AttendanceSurveyState();
+}
+
+class _AttendanceSurveyState extends State<AttendanceSurvey> {
+  int? index;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,95 +61,26 @@ class AttendanceSurvey extends StatelessWidget {
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: CalculateSize.getHeight(6),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: CalculateSize.getHeight(12),
-                        horizontal: CalculateSize.getHeight(12),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: ColorFamily.greyPrimary,
-                        ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.radio_button_off,
-                            color: ColorFamily.greyPrimary,
-                          ),
-                          SizedBox(
-                            width: CalculateSize.getWidth(8),
-                          ),
-                          const Text('Apel'),
-                        ],
-                      ),
+                    OptionTile(
+                      selected: index == 0,
+                      title: 'Apel',
+                      onTap: () => setState(() {
+                        index = 0;
+                      }),
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: CalculateSize.getHeight(6),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: CalculateSize.getHeight(12),
-                        horizontal: CalculateSize.getHeight(12),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: ColorFamily.greyPrimary,
-                        ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.radio_button_off,
-                            color: ColorFamily.greyPrimary,
-                          ),
-                          SizedBox(
-                            width: CalculateSize.getWidth(8),
-                          ),
-                          const Text('Jeruk'),
-                        ],
-                      ),
+                    OptionTile(
+                      selected: index == 1,
+                      title: 'Jeruk',
+                      onTap: () => setState(() {
+                        index = 1;
+                      }),
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: CalculateSize.getHeight(6),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: CalculateSize.getHeight(12),
-                        horizontal: CalculateSize.getHeight(12),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: ColorFamily.greyPrimary,
-                        ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.radio_button_off,
-                            color: ColorFamily.greyPrimary,
-                          ),
-                          SizedBox(
-                            width: CalculateSize.getWidth(8),
-                          ),
-                          const Text('Melon'),
-                        ],
-                      ),
+                    OptionTile(
+                      selected: index == 2,
+                      title: 'Melon',
+                      onTap: () => setState(() {
+                        index = 2;
+                      }),
                     ),
                   ],
                 ),
@@ -150,7 +89,7 @@ class AttendanceSurvey extends StatelessWidget {
                 children: [
                   Expanded(
                     child: DTElevatedButton(
-                      onPressed: onPrevious,
+                      onPressed: widget.onPrevious,
                       text: 'Sebelumnya',
                       type: DTElevatedButtonType.secondary,
                     ),
@@ -160,9 +99,11 @@ class AttendanceSurvey extends StatelessWidget {
                   ),
                   Expanded(
                     child: DTElevatedButton(
-                      onPressed: onNext,
+                      onPressed: () => widget.onNext(index!),
                       text: 'Selesai',
-                      type: DTElevatedButtonType.primary,
+                      type: index != null
+                          ? DTElevatedButtonType.primary
+                          : DTElevatedButtonType.disabled,
                     ),
                   )
                 ],
