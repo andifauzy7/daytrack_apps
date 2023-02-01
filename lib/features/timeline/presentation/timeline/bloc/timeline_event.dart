@@ -6,3 +6,5 @@ abstract class TimelineEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class TimelineFetchNews extends TimelineEvent {}

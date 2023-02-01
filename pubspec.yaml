@@ -59,6 +59,8 @@ dependencies:
   url_launcher: ^6.1.8
   # Form
   formz: ^0.4.1
+  # Loading
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

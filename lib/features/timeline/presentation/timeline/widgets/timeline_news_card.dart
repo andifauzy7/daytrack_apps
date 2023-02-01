@@ -3,14 +3,18 @@ import 'package:daytrack_apps/gen/fonts.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
 
-class NewsCard extends StatelessWidget {
-  const NewsCard({
+class TimelineNewsCard extends StatelessWidget {
+  const TimelineNewsCard({
     Key? key,
-    required this.index,
     required this.onPressed,
+    required this.title,
+    required this.desc,
+    required this.urlImage,
   }) : super(key: key);
 
-  final int index;
+  final String title;
+  final String desc;
+  final String urlImage;
   final VoidCallback onPressed;
 
   @override
@@ -24,15 +28,14 @@ class NewsCard extends StatelessWidget {
           Container(
             width: double.infinity,
             height: CalculateSize.getHeight(132),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: ColorFamily.tealPrimary,
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                    'https://kabarjombang.com/wp-content/uploads/2023/01/handphone.jpg'),
+                image: NetworkImage(urlImage),
               ),
             ),
           ),
@@ -48,7 +51,7 @@ class NewsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Daftar Aplikasi Bikin Boros Baterai Ponsel - Kabar Jombang',
+                        title,
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               fontWeight: FontWeight.w600,
                               fontFamily: FontFamily.montserrat,
@@ -58,7 +61,7 @@ class NewsCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        'JOMBANG, KabarJombang.com - Sejumlah aplikasi yang umum digunakan publik ternyata menguras baterai handphone atau ponsel. Apa saja aplikasinya? Daftar',
+                        desc,
                         style: Theme.of(context).textTheme.caption!.copyWith(
                               fontWeight: FontWeight.w500,
                               color: ColorFamily.greyPrimary,
