@@ -8,4 +8,5 @@ class ConstantsValue {
   static const mainRoute = '/main';
   static const editProfileRoute = '/edit';
   static const announcementRoute = '/announcement';
+  static const attendanceRoute = '/attendance';
 }

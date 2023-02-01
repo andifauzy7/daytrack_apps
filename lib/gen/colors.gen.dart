@@ -22,6 +22,9 @@ class ColorFamily {
   /// Color: #D9D9D9
   static const Color greyPrimary = Color(0xFFD9D9D9);
 
+  /// Color: #E33D3D
+  static const Color redPrimary = Color(0xFFE33D3D);
+
   /// Color: #309794
   static const Color tealPrimary = Color(0xFF309794);
 

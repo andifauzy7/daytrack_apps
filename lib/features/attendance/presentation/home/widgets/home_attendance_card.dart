@@ -1,3 +1,4 @@
+import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
@@ -8,6 +9,106 @@ enum HomeAttendanceCardType {
   checkIn,
   checkOut,
   finished,
+}
+
+extension HomeAttendanceCardTypeExtension on HomeAttendanceCardType {
+  Widget textTitle(BuildContext context) {
+    switch (this) {
+      case HomeAttendanceCardType.checkIn:
+        return Text(
+          'Saatnya Check-In',
+          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                fontWeight: FontWeight.w700,
+                color: ColorFamily.blackPrimary,
+              ),
+        );
+      case HomeAttendanceCardType.checkOut:
+        return Text(
+          'Selamat Bekerja',
+          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                fontWeight: FontWeight.w700,
+                color: ColorFamily.redPrimary,
+              ),
+        );
+      case HomeAttendanceCardType.finished:
+        return Text(
+          'Selamat Beristirahat',
+          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                fontWeight: FontWeight.w500,
+                color: ColorFamily.blackPrimary,
+              ),
+        );
+    }
+  }
+
+  Widget textSubtitle(BuildContext context) {
+    switch (this) {
+      case HomeAttendanceCardType.checkIn:
+        return StreamBuilder(
+          stream: Stream.periodic(const Duration(seconds: 1)),
+          builder: (context, snapshot) {
+            return Text(
+              DateFormat('EEEE, dd MMMM yyyy HH:mm:ss').format(
+                DateTime.now(),
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.caption!.copyWith(
+                    color: ColorFamily.blackPrimary,
+                    fontWeight: FontWeight.w500,
+                  ),
+            );
+          },
+        );
+      case HomeAttendanceCardType.checkOut:
+        return Text(
+          'Sudah Check-In pukul 21.15 WIB',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.caption!.copyWith(
+                color: ColorFamily.blackPrimary,
+                fontWeight: FontWeight.w500,
+              ),
+        );
+      case HomeAttendanceCardType.finished:
+        return Text(
+          'Sudah Check-Out pukul 21.15 WIB',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.caption!.copyWith(
+                color: ColorFamily.blackPrimary,
+                fontWeight: FontWeight.w500,
+              ),
+        );
+    }
+  }
+
+  Widget icon(VoidCallback onPressed) {
+    switch (this) {
+      case HomeAttendanceCardType.checkIn:
+        return IconButton(
+          onPressed: onPressed,
+          icon: const Icon(
+            Icons.login,
+            color: ColorFamily.tealPrimary,
+          ),
+        );
+      case HomeAttendanceCardType.checkOut:
+        return IconButton(
+          onPressed: onPressed,
+          icon: const Icon(
+            Icons.logout,
+            color: ColorFamily.redPrimary,
+          ),
+        );
+      case HomeAttendanceCardType.finished:
+        return Image.asset(
+          Assets.images.greeting.path,
+          width: CalculateSize.getWidth(64),
+          height: CalculateSize.getWidth(64),
+        );
+    }
+  }
 }
 
 class HomeAttendanceCard extends StatelessWidget {
@@ -50,57 +151,7 @@ class HomeAttendanceCard extends StatelessWidget {
       child: Column(
         children: [
           (type == HomeAttendanceCardType.checkOut)
-              ? Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: CalculateSize.getWidth(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Kondisi',
-                              style: bodyStyle.copyWith(
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              '🏢 Rumah',
-                              style: bodyStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Lokasi',
-                              style: bodyStyle.copyWith(
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              '🤧 Kurang fit',
-                              style: bodyStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: DTElevatedButton(
-                          onPressed: () {},
-                          text: 'Perbaharui',
-                          fontSize: 12,
-                          type: DTElevatedButtonType.primary,
-                        ),
-                      )
-                    ],
-                  ),
-                )
+              ? UpdateAttendance(bodyStyle: bodyStyle)
               : const SizedBox.shrink(),
           Container(
             decoration: const BoxDecoration(
@@ -119,26 +170,8 @@ class HomeAttendanceCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: ColorFamily.blackPrimary,
-                            ),
-                      ),
-                      StreamBuilder(
-                        stream: Stream.periodic(const Duration(seconds: 1)),
-                        builder: (context, snapshot) {
-                          return Text(
-                            DateFormat('EEEE, dd MMMM yyyy HH:mm:ss').format(
-                              DateTime.now(),
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: bodyStyle,
-                          );
-                        },
-                      ),
+                      type.textTitle(context),
+                      type.textSubtitle(context),
                       Text(
                         'Lihat Info Presensi',
                         style: Theme.of(context).textTheme.caption!.copyWith(
@@ -149,17 +182,75 @@ class HomeAttendanceCard extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  IconButton(
-                    onPressed: onPressed,
-                    icon: const Icon(
-                      Icons.login,
-                      color: ColorFamily.tealPrimary,
-                    ),
-                  )
+                  type.icon(onPressed)
                 ],
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class UpdateAttendance extends StatelessWidget {
+  const UpdateAttendance({
+    Key? key,
+    required this.bodyStyle,
+  }) : super(key: key);
+
+  final TextStyle bodyStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: CalculateSize.getWidth(8),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Kondisi',
+                  style: bodyStyle.copyWith(
+                    fontSize: 10,
+                  ),
+                ),
+                Text(
+                  '🏢 Rumah',
+                  style: bodyStyle,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Lokasi',
+                  style: bodyStyle.copyWith(
+                    fontSize: 10,
+                  ),
+                ),
+                Text(
+                  '🤧 Kurang fit',
+                  style: bodyStyle,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: DTElevatedButton(
+              onPressed: () {},
+              text: 'Perbaharui',
+              fontSize: 12,
+              type: DTElevatedButtonType.primary,
+            ),
+          )
         ],
       ),
     );
