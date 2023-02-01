@@ -10,8 +10,10 @@ class ProfileAvatar extends StatefulWidget {
   const ProfileAvatar({
     super.key,
     required this.avatar,
+    required this.onChanged,
   });
   final Uint8List? avatar;
+  final Function(Uint8List? value) onChanged;
 
   @override
   State<ProfileAvatar> createState() => _ProfileAvatarState();
@@ -22,13 +24,14 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
 
   Future<void> _getFromGallery() async {
     XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
     );
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path).readAsBytesSync();
       });
     }
+    widget.onChanged(imageFile);
   }
 
   ImageProvider _getImage() {
@@ -51,7 +54,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
         Positioned(
           bottom: 0,
           right: 0,
-          child: InkWell(
+          child: GestureDetector(
             onTap: () {
               _getFromGallery();
             },

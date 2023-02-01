@@ -78,6 +78,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, bool>> setDefaultUser() async {
     try {
+      await localDataSource.getUserData();
+      return const Right(true);
+    } on CacheException {
       final user = await localDataSource.cacheUserData(
         const UserModel(
           name: 'Andi Fauzy Dewantara',
@@ -85,10 +88,12 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
           password: 'a12345678',
         ),
       );
-      return Right(user);
-    } on CacheException {
-      final failure = CacheFailure();
-      return Left(failure);
+      if (user) {
+        return const Right(true);
+      } else {
+        final failure = CacheFailure();
+        return Left(failure);
+      }
     }
   }
 

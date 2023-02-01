@@ -32,8 +32,10 @@ class DTTextField extends StatelessWidget {
     this.textInputType,
     this.onChanged,
     this.errorText,
+    this.initialValue,
   });
 
+  final String? initialValue;
   final DTTextFieldType type;
   final FocusNode? focusNode;
   final String? hintText;
@@ -50,7 +52,8 @@ class DTTextField extends StatelessWidget {
         horizontal: 0,
         vertical: CalculateSize.getHeight(10),
       ),
-      child: TextField(
+      child: TextFormField(
+        initialValue: initialValue,
         focusNode: focusNode,
         keyboardType: textInputType,
         obscureText: type.obscureValue,

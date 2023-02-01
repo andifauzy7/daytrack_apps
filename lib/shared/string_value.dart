@@ -31,4 +31,12 @@ class StringValue {
       'Pastikan email yang dimasukkan dalam format yang sesuai';
   static const signInPasswordError =
       'Password terdiri dari minimal 8 karakter dan minimal mengandung satu huruf dan satu angka';
+
+  // Edit Profile
+  static const editProfileHintName = 'Example';
+  static const editProfile = 'Ubah';
+  static const editProfileNameError =
+      'Pastikan nama yang dimasukkan dalam format yang sesuai';
+  static const editProfileFailure = 'Data gagal disimpan ...';
+  static const editProfileSuccess = 'Data terubah!';
 }

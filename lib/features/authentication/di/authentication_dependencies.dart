@@ -10,6 +10,7 @@ import 'package:daytrack_apps/features/authentication/domain/usecases/set_defaul
 import 'package:daytrack_apps/features/authentication/domain/usecases/set_login_session_usecase.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/set_onboarding_session_usecase.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/set_profile_usecase.dart';
+import 'package:daytrack_apps/features/authentication/presentation/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/profile/bloc/profile_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/sign_in/bloc/sign_in_bloc.dart';
@@ -104,6 +105,11 @@ class AuthenticationDependencies {
     sl.registerFactory(
       () => ProfileBloc(
         getProfileUsecase: sl(),
+      ),
+    );
+    sl.registerFactory(
+      () => EditProfileBloc(
+        setProfileUsecase: sl(),
       ),
     );
   }

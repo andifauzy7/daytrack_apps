@@ -34,7 +34,15 @@ class _ProfileBodyState extends State<ProfileBody> {
             email: state.user.email,
             avatar: state.user.avatar,
             onEdit: () {
-              Navigator.pushNamed(context, ConstantsValue.editProfileRoute);
+              Navigator.pushNamed(
+                context,
+                ConstantsValue.editProfileRoute,
+                arguments: state.user,
+              ).then(
+                (value) => BlocProvider.of<ProfileBloc>(context).add(
+                  ProfileFetchData(),
+                ),
+              );
             },
           );
         }
