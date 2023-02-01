@@ -4,6 +4,7 @@ import 'package:daytrack_apps/features/authentication/presentation/onboarding/pa
 import 'package:daytrack_apps/features/authentication/presentation/sign_in/page/sign_in_page.dart';
 import 'package:daytrack_apps/features/authentication/presentation/splash/page/splash_page.dart';
 import 'package:daytrack_apps/features/main/presentation/main/page/main_page.dart';
+import 'package:daytrack_apps/features/timeline/presentation/announcement/pages/announcement_page.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/gen/fonts.gen.dart';
 import 'package:daytrack_apps/shared/color_to_material_color.dart';
@@ -67,6 +68,8 @@ class MyApp extends StatelessWidget {
           ConstantsValue.loginRoute: (context) => const SignInPage(),
           ConstantsValue.mainRoute: (context) => const MainPage(),
           ConstantsValue.editProfileRoute: (context) => const EditProfilePage(),
+          ConstantsValue.announcementRoute: (context) =>
+              const AnnouncementPage(),
         },
       ),
     );

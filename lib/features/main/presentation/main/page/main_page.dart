@@ -14,21 +14,20 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = const [
+      HomePage(),
+      HistoryPage(),
+      TimelinePage(),
+      ProfilePage(),
+    ];
+
     return BlocProvider(
       create: (_) => sl.get<MainBloc>(),
       child: BlocBuilder<MainBloc, int>(
         builder: (context, state) {
           return Scaffold(
             body: SafeArea(
-              child: IndexedStack(
-                index: state,
-                children: const [
-                  HomePage(),
-                  HistoryPage(),
-                  TimelinePage(),
-                  ProfilePage(),
-                ],
-              ),
+              child: pages[state],
             ),
             bottomNavigationBar: MainBottomNavBar(
               index: state,

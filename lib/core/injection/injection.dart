@@ -1,6 +1,7 @@
 import 'package:daytrack_apps/core/network/network_info.dart';
 import 'package:daytrack_apps/core/service_locator/service_locator.dart';
 import 'package:daytrack_apps/core/usecase/usecase.dart';
+import 'package:daytrack_apps/features/attendance/di/attendance_dependencies.dart';
 import 'package:daytrack_apps/features/authentication/di/authentication_dependencies.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/set_default_user_usecase.dart';
 import 'package:daytrack_apps/features/main/di/main_dependencies.dart';
@@ -20,6 +21,7 @@ class Injection {
     AuthenticationDependencies();
     TimelineDependencies();
     MainDependencies();
+    AttendanceDependencies();
   }
 
   Future<void> _registerCoreDependencies() async {

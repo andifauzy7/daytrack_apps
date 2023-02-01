@@ -1,7 +1,7 @@
-import 'package:daytrack_apps/features/attendance/presentation/home/widgets/widgets.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
+import 'package:daytrack_apps/shared/components/app_bar_rounded.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +32,7 @@ class ProfileInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        HomeHeader(
+        AppBarRounded(
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: CalculateSize.getWidth(16),

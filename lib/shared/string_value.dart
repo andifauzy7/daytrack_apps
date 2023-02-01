@@ -39,4 +39,23 @@ class StringValue {
       'Pastikan nama yang dimasukkan dalam format yang sesuai';
   static const editProfileFailure = 'Data gagal disimpan ...';
   static const editProfileSuccess = 'Data terubah!';
+
+  // Home
+  static const greetingMorning = 'Selamat Pagi';
+  static const greetingAfternoon = 'Selamat Siang';
+  static const greetingAfternoonSecond = 'Selamat Sore';
+  static const greetingEvening = 'Selamat Malam';
+
+  // Announcement
+  static const announcement = 'Pengumuman';
+  static const announcementSubtitle = 'Informasi terbaru dari perusahaan';
+  static const announceTitleFirst = 'Cuti Bersama';
+  static const announceSubtitleFirst =
+      'Tanggal 25 Januari ditetapkan pemerintah sebagai hari cuti bersama.';
+  static const announceTitleSecond = 'Performance Review Periode Q2';
+  static const announceSubtitleSecond =
+      'Diberitahukan untuk seluruh pegawai melakukan pengisian performance review baik untuk rekan sejawat dan atasan.';
+  static const announceTitleThird = 'Bonus Akhir Tahun';
+  static const announceSubtitleThird =
+      'Bonus akhir tahun akan cair pada tanggal 31 Januari 2023, dimohon seluruh pegawai mengikuti ketentuan sebagai berikut';
 }

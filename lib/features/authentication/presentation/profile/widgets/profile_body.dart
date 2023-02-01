@@ -16,11 +16,13 @@ class ProfileBody extends StatefulWidget {
 }
 
 class _ProfileBodyState extends State<ProfileBody> {
+  void dispatchFetchData() => BlocProvider.of<ProfileBloc>(context).add(
+        ProfileFetchData(),
+      );
+
   @override
   void initState() {
-    BlocProvider.of<ProfileBloc>(context).add(
-      ProfileFetchData(),
-    );
+    dispatchFetchData();
     super.initState();
   }
 
@@ -39,9 +41,9 @@ class _ProfileBodyState extends State<ProfileBody> {
                 ConstantsValue.editProfileRoute,
                 arguments: state.user,
               ).then(
-                (value) => BlocProvider.of<ProfileBloc>(context).add(
-                  ProfileFetchData(),
-                ),
+                (value) {
+                  dispatchFetchData();
+                },
               );
             },
           );

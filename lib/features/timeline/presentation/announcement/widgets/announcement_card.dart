@@ -1,37 +1,36 @@
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
+import 'package:daytrack_apps/shared/constants_value.dart';
+import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
 
-class HomeAnnouncementContent {
+class AnnouncementCardContent {
   final String title;
   final String description;
 
-  HomeAnnouncementContent({
+  AnnouncementCardContent({
     required this.title,
     required this.description,
   });
 }
 
-class HomeAnnouncement extends StatelessWidget {
-  HomeAnnouncement({
+class AnnouncementCard extends StatelessWidget {
+  AnnouncementCard({
     Key? key,
   }) : super(key: key);
 
-  final List<HomeAnnouncementContent> list = [
-    HomeAnnouncementContent(
-      title: 'Cuti Bersama',
-      description:
-          'Tanggal 25 Januari ditetapkan pemerintah sebagai hari cuti bersama.',
+  final List<AnnouncementCardContent> list = [
+    AnnouncementCardContent(
+      title: StringValue.announceTitleFirst,
+      description: StringValue.announceSubtitleFirst,
     ),
-    HomeAnnouncementContent(
-      title: 'Performance Review Periode Q2',
-      description:
-          'Diberitahukan untuk seluruh pegawai melakukan pengisian performance review baik untuk rekan sejawat dan atasan.',
+    AnnouncementCardContent(
+      title: StringValue.announceTitleSecond,
+      description: StringValue.announceSubtitleSecond,
     ),
-    HomeAnnouncementContent(
-      title: 'Bonus Akhir Tahun',
-      description:
-          'Bonus akhir tahun akan cair pada tanggal 31 Januari 2023, dimohon seluruh pegawai mengikuti ketentuan sebagai berikut',
+    AnnouncementCardContent(
+      title: StringValue.announceTitleThird,
+      description: StringValue.announceSubtitleThird,
     ),
   ];
 
@@ -39,14 +38,14 @@ class HomeAnnouncement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        'Pengumuman',
+        StringValue.announcement,
         style: Theme.of(context)
             .textTheme
             .subtitle1!
             .copyWith(color: ColorFamily.blackPrimary),
       ),
       Text(
-        'Informasi terbaru dari perusahaan',
+        StringValue.announcementSubtitle,
         style: Theme.of(context).textTheme.caption!.copyWith(
               color: ColorFamily.blackPrimary,
               fontWeight: FontWeight.w500,
@@ -68,6 +67,11 @@ class HomeAnnouncement extends StatelessWidget {
               trailing: Icon(
                 Icons.navigate_next,
                 color: Theme.of(context).primaryColor,
+              ),
+              onTap: () => Navigator.pushNamed(
+                context,
+                ConstantsValue.announcementRoute,
+                arguments: e,
               ),
             ),
           )

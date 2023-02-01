@@ -15,6 +15,7 @@ import 'package:daytrack_apps/features/authentication/presentation/onboarding/bl
 import 'package:daytrack_apps/features/authentication/presentation/profile/bloc/profile_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/sign_in/bloc/sign_in_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/splash/bloc/splash_bloc.dart';
+import 'package:daytrack_apps/features/authentication/presentation/user_info_header/bloc/user_info_header_bloc.dart';
 
 class AuthenticationDependencies {
   AuthenticationDependencies() {
@@ -100,6 +101,11 @@ class AuthenticationDependencies {
     sl.registerFactory(
       () => SignInBloc(
         setLoginSessionUsecase: sl(),
+      ),
+    );
+    sl.registerFactory(
+      () => UserInfoHeaderBloc(
+        getProfileUsecase: sl(),
       ),
     );
     sl.registerFactory(

@@ -2,8 +2,8 @@ import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/gradient_rotate.dart';
 import 'package:flutter/material.dart';
 
-class HomeHeader extends StatelessWidget {
-  const HomeHeader({
+class AppBarRounded extends StatelessWidget {
+  const AppBarRounded({
     Key? key,
     required this.child,
   }) : super(key: key);

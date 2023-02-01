@@ -7,4 +7,5 @@ class ConstantsValue {
   static const loginRoute = '/login';
   static const mainRoute = '/main';
   static const editProfileRoute = '/edit';
+  static const announcementRoute = '/announcement';
 }
