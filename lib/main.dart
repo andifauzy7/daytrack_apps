@@ -1,4 +1,5 @@
 import 'package:daytrack_apps/core/injection/injection.dart';
+import 'package:daytrack_apps/features/authentication/presentation/edit_profile/page/edit_profile.dart';
 import 'package:daytrack_apps/features/authentication/presentation/onboarding/page/onboarding_page.dart';
 import 'package:daytrack_apps/features/authentication/presentation/sign_in/page/sign_in_page.dart';
 import 'package:daytrack_apps/features/authentication/presentation/splash/page/splash_page.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
           ConstantsValue.onboardingRoute: (context) => const OnboardingPage(),
           ConstantsValue.loginRoute: (context) => const SignInPage(),
           ConstantsValue.mainRoute: (context) => const MainPage(),
+          ConstantsValue.editProfileRoute: (context) => const EditProfilePage(),
         },
       ),
     );

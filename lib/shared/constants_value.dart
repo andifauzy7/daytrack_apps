@@ -6,4 +6,5 @@ class ConstantsValue {
   static const onboardingRoute = '/onboarding';
   static const loginRoute = '/login';
   static const mainRoute = '/main';
+  static const editProfileRoute = '/edit';
 }

@@ -3,8 +3,8 @@ import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class TimelineErrorWidget extends StatelessWidget {
-  const TimelineErrorWidget({
+class ErrorResultWidget extends StatelessWidget {
+  const ErrorResultWidget({
     Key? key,
     required this.errorMessage,
   }) : super(key: key);

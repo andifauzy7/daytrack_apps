@@ -1,4 +1,5 @@
 import 'package:daytrack_apps/shared/calculate_size.dart';
+import 'package:daytrack_apps/shared/components/error_result_widget.dart';
 import 'package:daytrack_apps/shared/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,7 +59,7 @@ class _TimelineBodyState extends State<TimelineBody> {
             }
 
             if (state is TimelineError) {
-              return TimelineErrorWidget(
+              return ErrorResultWidget(
                 errorMessage: state.message,
               );
             }

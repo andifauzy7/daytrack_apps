@@ -5,10 +5,13 @@ import 'package:daytrack_apps/features/authentication/data/repositories/authenti
 import 'package:daytrack_apps/features/authentication/domain/repositories/authentication_repository.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/get_login_session_usecase.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/get_onboarding_session_usecase.dart';
+import 'package:daytrack_apps/features/authentication/domain/usecases/get_profile_usecase.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/set_default_user_usecase.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/set_login_session_usecase.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/set_onboarding_session_usecase.dart';
+import 'package:daytrack_apps/features/authentication/domain/usecases/set_profile_usecase.dart';
 import 'package:daytrack_apps/features/authentication/presentation/onboarding/bloc/onboarding_bloc.dart';
+import 'package:daytrack_apps/features/authentication/presentation/profile/bloc/profile_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/sign_in/bloc/sign_in_bloc.dart';
 import 'package:daytrack_apps/features/authentication/presentation/splash/bloc/splash_bloc.dart';
 
@@ -43,6 +46,16 @@ class AuthenticationDependencies {
     );
     sl.registerLazySingleton<SetDefaultUserUsecase>(
       () => SetDefaultUserUsecase(
+        sl(),
+      ),
+    );
+    sl.registerLazySingleton<GetProfileUsecase>(
+      () => GetProfileUsecase(
+        sl(),
+      ),
+    );
+    sl.registerLazySingleton<SetProfileUsecase>(
+      () => SetProfileUsecase(
         sl(),
       ),
     );
@@ -86,6 +99,11 @@ class AuthenticationDependencies {
     sl.registerFactory(
       () => SignInBloc(
         setLoginSessionUsecase: sl(),
+      ),
+    );
+    sl.registerFactory(
+      () => ProfileBloc(
+        getProfileUsecase: sl(),
       ),
     );
   }

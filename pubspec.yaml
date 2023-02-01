@@ -63,6 +63,8 @@ dependencies:
   shimmer: ^2.0.0
   # Animation
   lottie: ^2.2.0
+  # Image Picker
+  image_picker: ^0.8.6+1
 
 dev_dependencies:
   flutter_test:

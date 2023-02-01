@@ -23,6 +23,7 @@
     </queries>
   <!--#enddocregion android-queries-->
    <application
+        android:requestLegacyExternalStorage="true"
         android:label="Daytrack by Andi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

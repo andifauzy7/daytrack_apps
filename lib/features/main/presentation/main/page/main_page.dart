@@ -1,7 +1,7 @@
 import 'package:daytrack_apps/core/service_locator/service_locator.dart';
 import 'package:daytrack_apps/features/attendance/presentation/history/pages/history_page.dart';
 import 'package:daytrack_apps/features/attendance/presentation/home/pages/home_page.dart';
-import 'package:daytrack_apps/features/attendance/presentation/profile/pages/profile_page.dart';
+import 'package:daytrack_apps/features/authentication/presentation/profile/pages/profile_page.dart';
 import 'package:daytrack_apps/features/main/presentation/main/bloc/main_bloc.dart';
 import 'package:daytrack_apps/features/timeline/presentation/timeline/pages/timeline_page.dart';
 import 'package:flutter/material.dart';

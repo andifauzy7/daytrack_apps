@@ -16,7 +16,7 @@ class UserModel {
       name: json['name'],
       email: json['email'],
       password: json['password'],
-      avatar: json['email'],
+      avatar: json['avatar'],
     );
   }
 

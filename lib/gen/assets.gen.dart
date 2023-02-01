@@ -22,6 +22,9 @@ class $AssetsAnimationGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/avatar.webp
+  AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.webp');
+
   /// File path: assets/images/greeting.webp
   AssetGenImage get greeting =>
       const AssetGenImage('assets/images/greeting.webp');
@@ -44,6 +47,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        avatar,
         greeting,
         onboardingFirst,
         onboardingSecond,

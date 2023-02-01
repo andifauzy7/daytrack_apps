@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class ProfileAppBar extends StatelessWidget {
   const ProfileAppBar({
     Key? key,
+    required this.onEdit,
   }) : super(key: key);
+
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +27,12 @@ class ProfileAppBar extends StatelessWidget {
           ],
         ),
         const Spacer(),
-        const Icon(
-          Icons.edit,
-          color: Colors.white,
+        InkWell(
+          onTap: onEdit,
+          child: const Icon(
+            Icons.edit,
+            color: Colors.white,
+          ),
         ),
       ],
     );

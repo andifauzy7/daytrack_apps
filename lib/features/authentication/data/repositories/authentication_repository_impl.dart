@@ -6,6 +6,7 @@ import 'package:daytrack_apps/features/authentication/data/datasources/authentic
 import 'package:daytrack_apps/features/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:daytrack_apps/features/authentication/data/mapper/authentication_mapper.dart';
 import 'package:daytrack_apps/features/authentication/data/models/user_model.dart';
+import 'package:daytrack_apps/features/authentication/domain/entities/user.dart';
 import 'package:daytrack_apps/features/authentication/domain/entities/user_sign_in.dart';
 import 'package:daytrack_apps/features/authentication/domain/repositories/authentication_repository.dart';
 
@@ -85,6 +86,32 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
         ),
       );
       return Right(user);
+    } on CacheException {
+      final failure = CacheFailure();
+      return Left(failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> getProfile() async {
+    try {
+      final profile = await localDataSource.getUserData();
+      return Right(
+        AuthenticationMapper.convertUserModelToUser(profile),
+      );
+    } on CacheException {
+      final failure = CacheFailure();
+      return Left(failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> setProfile(User user) async {
+    try {
+      final result = await localDataSource.cacheUserData(
+        AuthenticationMapper.convertUserToUserModel(user),
+      );
+      return Right(result);
     } on CacheException {
       final failure = CacheFailure();
       return Left(failure);

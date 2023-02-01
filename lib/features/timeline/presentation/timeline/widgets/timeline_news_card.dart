@@ -29,7 +29,7 @@ class TimelineNewsCard extends StatelessWidget {
             width: double.infinity,
             height: CalculateSize.getHeight(132),
             decoration: BoxDecoration(
-              color: ColorFamily.tealPrimary,
+              color: ColorFamily.greyPrimary,
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
