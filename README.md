@@ -7,7 +7,7 @@ Record Attendance
 This project is a starting point for a Flutter application. Use local storage (record attendance, profile, etc) and remote (latest news from public API) to get data.
 
 ## Login
-Use `andi@daytrack.com` (email) & a12345678 (password)
+Use `andi@daytrack.com` (email) & `a12345678` (password)
 
 ## Feature Implemented
 - Show splash screen and onboarding page.
@@ -19,6 +19,7 @@ Use `andi@daytrack.com` (email) & a12345678 (password)
 
 ## Architecture
 - Clean Architecture
+- BLOC
 
 ## Project Structure
 <img src="resources/Clean-Architecture-Flutter-Diagram.webp" width='400'>
