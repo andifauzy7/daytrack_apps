@@ -12,8 +12,10 @@ class AttendanceSurvey extends StatefulWidget {
     required this.onNext,
     required this.onPrevious,
     required this.question,
+    this.initial,
   }) : super(key: key);
 
+  final int? initial;
   final Function(int) onNext;
   final VoidCallback onPrevious;
   final Question question;
@@ -64,7 +66,7 @@ class _AttendanceSurveyState extends State<AttendanceSurvey> {
                 child: ListView.builder(
                   itemCount: widget.question.option.length,
                   itemBuilder: (context, index) => OptionTile(
-                    selected: index == selected,
+                    selected: index == (selected ?? widget.initial),
                     title: widget.question.option[index].body,
                     onTap: () => setState(() {
                       selected = index;
@@ -86,9 +88,14 @@ class _AttendanceSurveyState extends State<AttendanceSurvey> {
                   ),
                   Expanded(
                     child: DTElevatedButton(
-                      onPressed: () => widget.onNext(selected!),
+                      onPressed: () => {
+                        if (selected != null)
+                          {widget.onNext(selected!)}
+                        else if (widget.initial != null)
+                          {widget.onNext(widget.initial!)}
+                      },
                       text: 'Selesai',
-                      type: selected != null
+                      type: (selected ?? widget.initial) != null
                           ? DTElevatedButtonType.primary
                           : DTElevatedButtonType.disabled,
                     ),

@@ -23,7 +23,7 @@ class UpdateAttendance extends StatelessWidget {
   }
 
   String _location() {
-    int answer = attendanceRecord?.condition?.answer ?? 0;
+    int answer = attendanceRecord?.location?.answer ?? 0;
     String emoji = attendanceRecord?.location?.option[answer].emoji ?? '';
     String content = attendanceRecord?.location?.option[answer].body ?? '';
     return '$emoji $content';

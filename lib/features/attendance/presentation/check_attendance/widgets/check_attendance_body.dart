@@ -1,4 +1,5 @@
 import 'package:daytrack_apps/features/attendance/presentation/check_attendance/bloc/check_attendance_bloc.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/pages/check_attendance_page.dart';
 import 'package:daytrack_apps/shared/components/error_result_widget.dart';
 import 'package:daytrack_apps/shared/constants_value.dart';
 import 'package:daytrack_apps/shared/string_value.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets.dart';
 
 class CheckAttendanceBody extends StatefulWidget {
-  const CheckAttendanceBody({super.key});
+  const CheckAttendanceBody({super.key, required this.args});
+  final CheckAttendanceArgs args;
 
   @override
   State<CheckAttendanceBody> createState() => _CheckAttendanceBodyState();
@@ -19,7 +21,7 @@ class _CheckAttendanceBodyState extends State<CheckAttendanceBody> {
   void initState() {
     super.initState();
     BlocProvider.of<CheckAttendanceBloc>(context).add(
-      CheckAttendanceFetchData(),
+      CheckAttendanceFetchData(args: widget.args),
     );
   }
 
@@ -74,16 +76,19 @@ class _CheckAttendanceBodyState extends State<CheckAttendanceBody> {
                   index: state.indexPage,
                   children: [
                     AttendanceCondition(
+                      initial: state.attendanceRecord.condition?.answer,
                       user: state.user,
                       question: state.question[0],
                       onNext: nextPage,
                     ),
                     AttendanceLocation(
+                      initial: state.attendanceRecord.location?.answer,
                       question: state.question[1],
                       onNext: nextPage,
                       onPrevious: prevPage,
                     ),
                     AttendanceSurvey(
+                      initial: state.attendanceRecord.survey?.answer,
                       question: state.question[2],
                       onNext: nextPage,
                       onPrevious: prevPage,

@@ -15,6 +15,7 @@ class AttendanceMapper {
             .toList(),
         question: questionModel.question ?? '',
         title: questionModel.title ?? '',
+        answer: questionModel.answer,
       );
 
   static QuestionModel convertQuestionToQuestionModel(Question question) =>

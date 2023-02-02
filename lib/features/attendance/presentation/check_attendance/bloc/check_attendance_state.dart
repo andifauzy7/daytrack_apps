@@ -22,6 +22,7 @@ class CheckAttendanceError extends CheckAttendanceState {
 }
 
 class CheckAttendanceLoaded extends CheckAttendanceState {
+  final AttendanceRecord attendanceRecord;
   final int indexPage;
   final User user;
   final List<Question> question;
@@ -30,5 +31,6 @@ class CheckAttendanceLoaded extends CheckAttendanceState {
     required this.indexPage,
     required this.user,
     required this.question,
+    required this.attendanceRecord,
   });
 }

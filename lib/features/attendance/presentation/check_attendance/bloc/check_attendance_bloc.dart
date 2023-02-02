@@ -3,6 +3,7 @@ import 'package:daytrack_apps/features/attendance/domain/entities/attendance_rec
 import 'package:daytrack_apps/features/attendance/domain/entities/question.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/get_questions_usecase.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/set_attendace_record_usecase.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/pages/check_attendance_page.dart';
 import 'package:daytrack_apps/features/authentication/domain/entities/user.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/get_profile_usecase.dart';
 import 'package:daytrack_apps/shared/determine_position.dart';
@@ -83,6 +84,7 @@ class CheckAttendanceBloc
 
     emit(
       CheckAttendanceLoaded(
+        attendanceRecord: attendanceRecord,
         indexPage: indexPage,
         user: user,
         question: question,
@@ -101,6 +103,7 @@ class CheckAttendanceBloc
     } else {
       emit(
         CheckAttendanceLoaded(
+          attendanceRecord: attendanceRecord,
           indexPage: indexPage,
           user: user,
           question: question,
@@ -110,12 +113,18 @@ class CheckAttendanceBloc
   }
 
   Future<void> _fetchDataHandle(
-    CheckAttendanceEvent event,
+    CheckAttendanceFetchData event,
     Emitter<CheckAttendanceState> emit,
   ) async {
     emit(CheckAttendanceLoading());
     position = await determinePosition();
-    attendanceRecord.dateTime = DateTime.now();
+
+    if (event.args.attendanceRecord != null) {
+      attendanceRecord = event.args.attendanceRecord!;
+    } else {
+      attendanceRecord.dateTime = DateTime.now();
+    }
+
     final getProfile = await getProfileUsecase(
       NoParams(),
     );
@@ -141,6 +150,7 @@ class CheckAttendanceBloc
         question = valueQuestion;
         emit(
           CheckAttendanceLoaded(
+            attendanceRecord: attendanceRecord,
             indexPage: indexPage,
             user: user,
             question: question,

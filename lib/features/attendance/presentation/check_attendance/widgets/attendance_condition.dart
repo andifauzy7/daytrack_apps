@@ -14,8 +14,10 @@ class AttendanceCondition extends StatefulWidget {
     required this.onNext,
     required this.question,
     required this.user,
+    this.initial,
   }) : super(key: key);
 
+  final int? initial;
   final Function(int) onNext;
   final Question question;
   final User user;
@@ -27,6 +29,7 @@ class AttendanceCondition extends StatefulWidget {
 class _AttendanceConditionState extends State<AttendanceCondition> {
   int? selected;
   String? image;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -83,21 +86,25 @@ class _AttendanceConditionState extends State<AttendanceCondition> {
                         child: ListView.builder(
                           itemCount: widget.question.option.length,
                           itemBuilder: (context, index) => OptionTile(
-                            selected: selected == index,
+                            selected: (selected ?? widget.initial) == index,
                             title: widget.question.option[index].body,
                             emoji: widget.question.option[index].emoji,
                             onTap: () => setState(() {
                               selected = index;
-                              image =
-                                  widget.question.option[index].image ?? null;
+                              image = widget.question.option[index].image;
                             }),
                           ),
                         ),
                       ),
                       DTElevatedButton(
-                        onPressed: () => widget.onNext(selected!),
+                        onPressed: () => {
+                          if (selected != null)
+                            {widget.onNext(selected!)}
+                          else if (widget.initial != null)
+                            {widget.onNext(widget.initial!)}
+                        },
                         text: 'Selanjutnya',
-                        type: selected != null
+                        type: (selected ?? widget.initial) != null
                             ? DTElevatedButtonType.primary
                             : DTElevatedButtonType.disabled,
                       ),

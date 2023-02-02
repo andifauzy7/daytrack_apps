@@ -1,24 +1,35 @@
 import 'package:daytrack_apps/core/service_locator/service_locator.dart';
 import 'package:daytrack_apps/features/attendance/domain/entities/attendance_record.dart';
 import 'package:daytrack_apps/features/attendance/presentation/check_attendance/bloc/check_attendance_bloc.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/enum/check_attendance_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/widgets.dart';
+
+class CheckAttendanceArgs {
+  final AttendanceRecord? attendanceRecord;
+  final CheckAttendanceType type;
+
+  CheckAttendanceArgs({
+    required this.attendanceRecord,
+    required this.type,
+  });
+}
 
 class CheckAttendancePage extends StatelessWidget {
   const CheckAttendancePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AttendanceRecord? record =
-        ModalRoute.of(context)?.settings.arguments as AttendanceRecord?;
-
-    print(record.toString());
+    CheckAttendanceArgs record =
+        ModalRoute.of(context)?.settings.arguments as CheckAttendanceArgs;
 
     return BlocProvider(
       create: (_) => sl.get<CheckAttendanceBloc>(),
-      child: const CheckAttendanceBody(),
+      child: CheckAttendanceBody(
+        args: record,
+      ),
     );
   }
 

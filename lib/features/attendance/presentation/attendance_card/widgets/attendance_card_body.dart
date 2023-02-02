@@ -1,6 +1,8 @@
 import 'package:daytrack_apps/features/attendance/domain/entities/attendance_record.dart';
 import 'package:daytrack_apps/features/attendance/presentation/attendance_card/bloc/attendance_card_bloc.dart';
 import 'package:daytrack_apps/features/attendance/presentation/attendance_card/enum/home_attendance_card_type.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/enum/check_attendance_step.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/pages/check_attendance_page.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/constants_value.dart';
@@ -20,9 +22,16 @@ class AttendanceCardBody extends StatefulWidget {
 }
 
 class _AttendanceCardBodyState extends State<AttendanceCardBody> {
-  void navigateToCheckAttendance(AttendanceRecord? attendanceRecord) =>
-      Navigator.pushNamed(context, ConstantsValue.attendanceRoute,
-          arguments: attendanceRecord);
+  void navigateToCheckAttendance(
+    AttendanceRecord? attendanceRecord,
+    CheckAttendanceType type,
+  ) =>
+      Navigator.pushNamed(
+        context,
+        ConstantsValue.attendanceRoute,
+        arguments:
+            CheckAttendanceArgs(attendanceRecord: attendanceRecord, type: type),
+      );
 
   @override
   void initState() {
@@ -56,8 +65,10 @@ class _AttendanceCardBodyState extends State<AttendanceCardBody> {
                   state.type == HomeAttendanceCardType.checkOut) {
                 return UpdateAttendance(
                   attendanceRecord: state.attendanceRecord,
-                  onUpdate: () =>
-                      navigateToCheckAttendance(state.attendanceRecord),
+                  onUpdate: () => navigateToCheckAttendance(
+                    state.attendanceRecord,
+                    CheckAttendanceType.update,
+                  ),
                 );
               }
               return const SizedBox.shrink();
@@ -105,8 +116,18 @@ class _AttendanceCardBodyState extends State<AttendanceCardBody> {
                           ),
                         ),
                         state.type.icon(
-                          () =>
-                              navigateToCheckAttendance(state.attendanceRecord),
+                          () {
+                            CheckAttendanceType type;
+                            if (state.attendanceRecord?.checkIn == null) {
+                              type = CheckAttendanceType.checkIn;
+                            } else {
+                              type = CheckAttendanceType.checkOut;
+                            }
+                            navigateToCheckAttendance(
+                              state.attendanceRecord,
+                              type,
+                            );
+                          },
                         )
                       ],
                     );

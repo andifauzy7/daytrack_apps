@@ -13,8 +13,10 @@ class AttendanceLocation extends StatefulWidget {
     required this.onNext,
     required this.onPrevious,
     required this.question,
+    this.initial,
   }) : super(key: key);
 
+  final int? initial;
   final Question question;
   final Function(int) onNext;
   final VoidCallback onPrevious;
@@ -103,7 +105,7 @@ class _AttendanceLocationState extends State<AttendanceLocation> {
                         child: ListView.builder(
                           itemCount: widget.question.option.length,
                           itemBuilder: (context, index) => OptionTile(
-                            selected: selected == index,
+                            selected: (selected ?? widget.initial) == index,
                             title: widget.question.option[index].body,
                             emoji: widget.question.option[index].emoji,
                             onTap: () => setState(() {
@@ -126,9 +128,14 @@ class _AttendanceLocationState extends State<AttendanceLocation> {
                           ),
                           Expanded(
                             child: DTElevatedButton(
-                              onPressed: () => widget.onNext(selected!),
+                              onPressed: () => {
+                                if (selected != null)
+                                  {widget.onNext(selected!)}
+                                else if (widget.initial != null)
+                                  {widget.onNext(widget.initial!)}
+                              },
                               text: 'Selanjutnya',
-                              type: selected != null
+                              type: (selected ?? widget.initial) != null
                                   ? DTElevatedButtonType.primary
                                   : DTElevatedButtonType.disabled,
                             ),

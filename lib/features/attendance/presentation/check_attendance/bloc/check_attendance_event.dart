@@ -7,7 +7,11 @@ abstract class CheckAttendanceEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CheckAttendanceFetchData extends CheckAttendanceEvent {}
+class CheckAttendanceFetchData extends CheckAttendanceEvent {
+  final CheckAttendanceArgs args;
+
+  const CheckAttendanceFetchData({required this.args});
+}
 
 class CheckAttendanceNextStep extends CheckAttendanceEvent {
   final int answer;
