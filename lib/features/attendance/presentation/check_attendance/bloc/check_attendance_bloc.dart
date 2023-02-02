@@ -11,6 +11,7 @@ import 'package:daytrack_apps/features/authentication/domain/usecases/get_profil
 import 'package:daytrack_apps/shared/determine_position.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 part 'check_attendance_event.dart';
@@ -36,6 +37,7 @@ class CheckAttendanceBloc
     required this.setAttendanceRecordUsecase,
     required this.updateAttendanceRecordUsecase,
   }) : super(CheckAttendanceInitial()) {
+    on<CheckAttendanceRefreshPosition>(_refreshPositionHandle);
     on<CheckAttendanceFetchData>(_fetchDataHandle);
     on<CheckAttendancePreviousStep>(_fetchPreviousStep);
     on<CheckAttendanceNextStep>(_fetchNextStep);
@@ -47,7 +49,6 @@ class CheckAttendanceBloc
     Emitter<CheckAttendanceState> emit,
   ) async {
     emit(CheckAttendanceLoading());
-    print(attendanceRecord.toString());
     if (attendanceRecord.checkIn == null) {
       attendanceRecord.checkIn = DateTime.now();
       final setAttendance = await setAttendanceRecordUsecase(
@@ -92,7 +93,6 @@ class CheckAttendanceBloc
     }
     if (indexPage == 1) {
       // Location
-
       attendanceRecord.latitude = position.latitude;
       attendanceRecord.langitude = position.longitude;
       attendanceRecord.location = question[indexPage];
@@ -146,7 +146,7 @@ class CheckAttendanceBloc
     Emitter<CheckAttendanceState> emit,
   ) async {
     emit(CheckAttendanceLoading());
-    position = await determinePosition();
+    _handleLocation();
     args = event.args;
     if (event.args.attendanceRecord != null) {
       attendanceRecord = event.args.attendanceRecord!;
@@ -189,6 +189,37 @@ class CheckAttendanceBloc
           ),
         );
       },
+    );
+  }
+
+  Future<void> _handleLocation() async {
+    // Get Current Position
+    position = await determinePosition();
+    // Find Address
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+    Placemark place = placemarks[0];
+    attendanceRecord.latitude = position.latitude;
+    attendanceRecord.langitude = position.longitude;
+    attendanceRecord.detailAddress =
+        ('${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}');
+  }
+
+  Future<void> _refreshPositionHandle(
+    CheckAttendanceRefreshPosition event,
+    Emitter<CheckAttendanceState> emit,
+  ) async {
+    emit(CheckAttendanceLoading());
+    await _handleLocation();
+    emit(
+      CheckAttendanceLoaded(
+        attendanceRecord: attendanceRecord,
+        indexPage: indexPage,
+        user: user,
+        question: question,
+      ),
     );
   }
 }

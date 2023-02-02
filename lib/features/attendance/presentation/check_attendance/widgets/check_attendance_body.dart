@@ -37,6 +37,10 @@ class _CheckAttendanceBodyState extends State<CheckAttendanceBody> {
         CheckAttendanceSubmit(),
       );
 
+  void refreshPosition() => BlocProvider.of<CheckAttendanceBloc>(context).add(
+        CheckAttendanceRefreshPosition(),
+      );
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CheckAttendanceBloc, CheckAttendanceState>(
@@ -77,38 +81,40 @@ class _CheckAttendanceBodyState extends State<CheckAttendanceBody> {
           body: BlocBuilder<CheckAttendanceBloc, CheckAttendanceState>(
             builder: (context, state) {
               if (state is CheckAttendanceLoaded) {
-                return IndexedStack(
-                  index: state.indexPage,
-                  children: [
-                    AttendanceCondition(
-                      initial: state.attendanceRecord.condition?.answer,
-                      user: state.user,
-                      question: state.question[0],
-                      onNext: nextPage,
-                    ),
-                    AttendanceLocation(
-                      initial: state.attendanceRecord.location?.answer,
-                      question: state.question[1],
-                      onNext: nextPage,
-                      onPrevious: prevPage,
-                    ),
-                    AttendanceSurvey(
-                      initial: state.attendanceRecord.survey?.answer,
-                      question: state.question[2],
-                      onNext: nextPage,
-                      onPrevious: prevPage,
-                    ),
-                    AttendanceSurvey(
-                      initial: state.attendanceRecord.workingHours?.answer,
-                      question: state.question[3],
-                      onNext: nextPage,
-                      onPrevious: prevPage,
-                    ),
-                    AttendanceFinished(
-                      onFinished: finishStep,
-                    )
-                  ],
-                );
+                return [
+                  AttendanceCondition(
+                    initial: state.attendanceRecord.condition?.answer,
+                    user: state.user,
+                    question: state.question[0],
+                    onNext: nextPage,
+                  ),
+                  AttendanceLocation(
+                    attendanceRecord: state.attendanceRecord,
+                    initial: state.attendanceRecord.location?.answer,
+                    question: state.question[1],
+                    onRefresh: refreshPosition,
+                    onNext: nextPage,
+                    onPrevious: prevPage,
+                  ),
+                  AttendanceSurvey(
+                    initial: state.attendanceRecord.survey?.answer,
+                    question: state.question[2],
+                    onNext: nextPage,
+                    onPrevious: prevPage,
+                  ),
+                  AttendanceSurvey(
+                    initial: state.attendanceRecord.workingHours?.answer,
+                    question: state.question[3],
+                    onNext: nextPage,
+                    onPrevious: prevPage,
+                  ),
+                  AttendanceFinished(
+                    user: state.user,
+                    attendanceRecord: state.attendanceRecord,
+                    type: widget.args.type,
+                    onFinished: finishStep,
+                  )
+                ].elementAt(state.indexPage);
               }
 
               if (state is CheckAttendanceError) {

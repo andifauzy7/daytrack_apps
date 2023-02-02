@@ -1,3 +1,6 @@
+import 'package:daytrack_apps/features/attendance/domain/entities/attendance_record.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/enum/check_attendance_step.dart';
+import 'package:daytrack_apps/features/authentication/domain/entities/user.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
@@ -8,9 +11,15 @@ class AttendanceFinished extends StatelessWidget {
   const AttendanceFinished({
     Key? key,
     required this.onFinished,
+    required this.attendanceRecord,
+    required this.type,
+    required this.user,
   }) : super(key: key);
 
   final VoidCallback onFinished;
+  final AttendanceRecord attendanceRecord;
+  final CheckAttendanceType type;
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +54,16 @@ class AttendanceFinished extends StatelessWidget {
                       flex: 1,
                     ),
                     Text(
-                      'Andi Fauzy',
+                      user.name,
                       style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             fontWeight: FontWeight.w600,
                             color: ColorFamily.tealPrimary,
                           ),
                     ),
                     Text(
-                      'Selamat Bekerja',
+                      (type == CheckAttendanceType.checkOut)
+                          ? 'Selamat Isitrahat'
+                          : 'Selamat Bekerja',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption!.copyWith(
                             color: ColorFamily.blackPrimary,
@@ -63,13 +74,13 @@ class AttendanceFinished extends StatelessWidget {
                       height: CalculateSize.getHeight(16),
                     ),
                     Text(
-                      '🤧 Semoga cepat sehat kembali',
+                      attendanceRecord.getCondition(),
                       style: Theme.of(context).textTheme.caption!.copyWith(
                             color: ColorFamily.blackPrimary,
                           ),
                     ),
                     Text(
-                      '🏢 Jaga protokol kesehatan di Kantor',
+                      attendanceRecord.getLocation(),
                       style: Theme.of(context).textTheme.caption!.copyWith(
                             color: ColorFamily.blackPrimary,
                           ),

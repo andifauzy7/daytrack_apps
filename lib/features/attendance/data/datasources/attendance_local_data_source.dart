@@ -39,17 +39,17 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
           OptionAnswerModel(
             body: 'Sehat',
             emoji: '😇',
-            image: Assets.images.onboardingFirst.path,
+            image: Assets.images.healthy.path,
           ),
           OptionAnswerModel(
             body: 'Kurang Fit',
             emoji: '🤧',
-            image: Assets.images.onboardingSecond.path,
+            image: Assets.images.healthNotFit.path,
           ),
           OptionAnswerModel(
             body: 'Sakit',
             emoji: '😷',
-            image: Assets.images.onboardingThird.path,
+            image: Assets.images.sick.path,
           ),
         ],
       ),

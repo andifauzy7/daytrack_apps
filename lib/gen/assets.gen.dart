@@ -29,6 +29,14 @@ class $AssetsImagesGen {
   AssetGenImage get greeting =>
       const AssetGenImage('assets/images/greeting.webp');
 
+  /// File path: assets/images/health_not_fit.webp
+  AssetGenImage get healthNotFit =>
+      const AssetGenImage('assets/images/health_not_fit.webp');
+
+  /// File path: assets/images/healthy.webp
+  AssetGenImage get healthy =>
+      const AssetGenImage('assets/images/healthy.webp');
+
   /// File path: assets/images/onboarding_first.webp
   AssetGenImage get onboardingFirst =>
       const AssetGenImage('assets/images/onboarding_first.webp');
@@ -41,6 +49,9 @@ class $AssetsImagesGen {
   AssetGenImage get onboardingThird =>
       const AssetGenImage('assets/images/onboarding_third.webp');
 
+  /// File path: assets/images/sick.webp
+  AssetGenImage get sick => const AssetGenImage('assets/images/sick.webp');
+
   /// File path: assets/images/sign_in_illustration.webp
   AssetGenImage get signInIllustration =>
       const AssetGenImage('assets/images/sign_in_illustration.webp');
@@ -49,9 +60,12 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         avatar,
         greeting,
+        healthNotFit,
+        healthy,
         onboardingFirst,
         onboardingSecond,
         onboardingThird,
+        sick,
         signInIllustration
       ];
 }

@@ -22,3 +22,5 @@ class CheckAttendanceNextStep extends CheckAttendanceEvent {
 class CheckAttendancePreviousStep extends CheckAttendanceEvent {}
 
 class CheckAttendanceSubmit extends CheckAttendanceEvent {}
+
+class CheckAttendanceRefreshPosition extends CheckAttendanceEvent {}

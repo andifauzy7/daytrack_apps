@@ -36,10 +36,17 @@ class _AttendanceConditionState extends State<AttendanceCondition> {
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.5,
-          child: Image.asset(
-            image ?? Assets.images.onboardingFirst.path,
-            fit: BoxFit.cover,
-            width: double.infinity,
+          child: IndexedStack(
+            index: selected ?? widget.initial ?? 0,
+            children: widget.question.option
+                .map(
+                  (e) => Image.asset(
+                    e.image ?? Assets.images.onboardingFirst.path,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                )
+                .toList(),
           ),
         ),
         Column(
@@ -91,7 +98,6 @@ class _AttendanceConditionState extends State<AttendanceCondition> {
                             emoji: widget.question.option[index].emoji,
                             onTap: () => setState(() {
                               selected = index;
-                              image = widget.question.option[index].image;
                             }),
                           ),
                         ),
