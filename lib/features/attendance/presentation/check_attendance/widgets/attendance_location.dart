@@ -1,3 +1,4 @@
+import 'package:daytrack_apps/features/attendance/domain/entities/question.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
@@ -11,8 +12,10 @@ class AttendanceLocation extends StatefulWidget {
     Key? key,
     required this.onNext,
     required this.onPrevious,
+    required this.question,
   }) : super(key: key);
 
+  final Question question;
   final Function(int) onNext;
   final VoidCallback onPrevious;
 
@@ -21,7 +24,7 @@ class AttendanceLocation extends StatefulWidget {
 }
 
 class _AttendanceLocationState extends State<AttendanceLocation> {
-  int? index;
+  int? selected;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -62,7 +65,7 @@ class _AttendanceLocationState extends State<AttendanceLocation> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Dimana lokasimu saat ini?',
+                                widget.question.question,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context)
@@ -97,34 +100,16 @@ class _AttendanceLocationState extends State<AttendanceLocation> {
                         height: CalculateSize.getHeight(16),
                       ),
                       Expanded(
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          children: [
-                            OptionTile(
-                              selected: index == 0,
-                              title: 'Kantor',
-                              emoji: '🏢',
-                              onTap: () => setState(() {
-                                index = 0;
-                              }),
-                            ),
-                            OptionTile(
-                              selected: index == 1,
-                              title: 'Rumah',
-                              emoji: '🏡',
-                              onTap: () => setState(() {
-                                index = 1;
-                              }),
-                            ),
-                            OptionTile(
-                              selected: index == 2,
-                              title: 'Lainnya',
-                              emoji: '📍',
-                              onTap: () => setState(() {
-                                index = 2;
-                              }),
-                            ),
-                          ],
+                        child: ListView.builder(
+                          itemCount: widget.question.option.length,
+                          itemBuilder: (context, index) => OptionTile(
+                            selected: selected == index,
+                            title: widget.question.option[index].body,
+                            emoji: widget.question.option[index].emoji,
+                            onTap: () => setState(() {
+                              selected = index;
+                            }),
+                          ),
                         ),
                       ),
                       Row(
@@ -141,9 +126,9 @@ class _AttendanceLocationState extends State<AttendanceLocation> {
                           ),
                           Expanded(
                             child: DTElevatedButton(
-                              onPressed: () => widget.onNext(index!),
+                              onPressed: () => widget.onNext(selected!),
                               text: 'Selanjutnya',
-                              type: index != null
+                              type: selected != null
                                   ? DTElevatedButtonType.primary
                                   : DTElevatedButtonType.disabled,
                             ),

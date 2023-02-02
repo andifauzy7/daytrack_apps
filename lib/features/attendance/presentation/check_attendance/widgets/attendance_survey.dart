@@ -1,3 +1,4 @@
+import 'package:daytrack_apps/features/attendance/domain/entities/question.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
@@ -10,17 +11,19 @@ class AttendanceSurvey extends StatefulWidget {
     Key? key,
     required this.onNext,
     required this.onPrevious,
+    required this.question,
   }) : super(key: key);
 
   final Function(int) onNext;
   final VoidCallback onPrevious;
+  final Question question;
 
   @override
   State<AttendanceSurvey> createState() => _AttendanceSurveyState();
 }
 
 class _AttendanceSurveyState extends State<AttendanceSurvey> {
-  int? index;
+  int? selected;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,14 +43,14 @@ class _AttendanceSurveyState extends State<AttendanceSurvey> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
-                'Pertanyaan Survey',
+                widget.question.title,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
                       fontWeight: FontWeight.w600,
                       color: ColorFamily.blackPrimary,
                     ),
               ),
               Text(
-                'Apa buah kesukaanmu?',
+                widget.question.question,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.caption!.copyWith(
                       color: ColorFamily.blackPrimary,
@@ -58,31 +61,15 @@ class _AttendanceSurveyState extends State<AttendanceSurvey> {
                 height: CalculateSize.getHeight(16),
               ),
               Expanded(
-                child: ListView(
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    OptionTile(
-                      selected: index == 0,
-                      title: 'Apel',
-                      onTap: () => setState(() {
-                        index = 0;
-                      }),
-                    ),
-                    OptionTile(
-                      selected: index == 1,
-                      title: 'Jeruk',
-                      onTap: () => setState(() {
-                        index = 1;
-                      }),
-                    ),
-                    OptionTile(
-                      selected: index == 2,
-                      title: 'Melon',
-                      onTap: () => setState(() {
-                        index = 2;
-                      }),
-                    ),
-                  ],
+                child: ListView.builder(
+                  itemCount: widget.question.option.length,
+                  itemBuilder: (context, index) => OptionTile(
+                    selected: index == selected,
+                    title: widget.question.option[index].body,
+                    onTap: () => setState(() {
+                      selected = index;
+                    }),
+                  ),
                 ),
               ),
               Row(
@@ -99,9 +86,9 @@ class _AttendanceSurveyState extends State<AttendanceSurvey> {
                   ),
                   Expanded(
                     child: DTElevatedButton(
-                      onPressed: () => widget.onNext(index!),
+                      onPressed: () => widget.onNext(selected!),
                       text: 'Selesai',
-                      type: index != null
+                      type: selected != null
                           ? DTElevatedButtonType.primary
                           : DTElevatedButtonType.disabled,
                     ),

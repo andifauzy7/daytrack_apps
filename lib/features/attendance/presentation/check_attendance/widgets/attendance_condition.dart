@@ -1,3 +1,5 @@
+import 'package:daytrack_apps/features/attendance/domain/entities/question.dart';
+import 'package:daytrack_apps/features/authentication/domain/entities/user.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
@@ -10,16 +12,21 @@ class AttendanceCondition extends StatefulWidget {
   const AttendanceCondition({
     Key? key,
     required this.onNext,
+    required this.question,
+    required this.user,
   }) : super(key: key);
 
   final Function(int) onNext;
+  final Question question;
+  final User user;
 
   @override
   State<AttendanceCondition> createState() => _AttendanceConditionState();
 }
 
 class _AttendanceConditionState extends State<AttendanceCondition> {
-  int? index;
+  int? selected;
+  String? image;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -27,7 +34,7 @@ class _AttendanceConditionState extends State<AttendanceCondition> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.5,
           child: Image.asset(
-            Assets.images.onboardingFirst.path,
+            image ?? Assets.images.onboardingFirst.path,
             fit: BoxFit.cover,
             width: double.infinity,
           ),
@@ -54,14 +61,14 @@ class _AttendanceConditionState extends State<AttendanceCondition> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Andi Fauzy',
+                        widget.user.name,
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               fontWeight: FontWeight.w600,
                               color: ColorFamily.blackPrimary,
                             ),
                       ),
                       Text(
-                        'Apa kondisimu hari ini?',
+                        widget.question.question,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.caption!.copyWith(
@@ -73,40 +80,24 @@ class _AttendanceConditionState extends State<AttendanceCondition> {
                         height: CalculateSize.getHeight(16),
                       ),
                       Expanded(
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          children: [
-                            OptionTile(
-                              selected: index == 0,
-                              title: 'Sehat',
-                              emoji: '😇',
-                              onTap: () => setState(() {
-                                index = 0;
-                              }),
-                            ),
-                            OptionTile(
-                              selected: index == 1,
-                              title: 'Kurang Fit',
-                              emoji: '🤧',
-                              onTap: () => setState(() {
-                                index = 1;
-                              }),
-                            ),
-                            OptionTile(
-                              selected: index == 2,
-                              title: 'Sakit',
-                              emoji: '😷',
-                              onTap: () => setState(() {
-                                index = 2;
-                              }),
-                            ),
-                          ],
+                        child: ListView.builder(
+                          itemCount: widget.question.option.length,
+                          itemBuilder: (context, index) => OptionTile(
+                            selected: selected == index,
+                            title: widget.question.option[index].body,
+                            emoji: widget.question.option[index].emoji,
+                            onTap: () => setState(() {
+                              selected = index;
+                              image =
+                                  widget.question.option[index].image ?? null;
+                            }),
+                          ),
                         ),
                       ),
                       DTElevatedButton(
-                        onPressed: () => widget.onNext(index!),
+                        onPressed: () => widget.onNext(selected!),
                         text: 'Selanjutnya',
-                        type: index != null
+                        type: selected != null
                             ? DTElevatedButtonType.primary
                             : DTElevatedButtonType.disabled,
                       ),

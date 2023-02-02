@@ -65,6 +65,8 @@ dependencies:
   lottie: ^2.2.0
   # Image Picker
   image_picker: ^0.8.6+1
+  # Location
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:

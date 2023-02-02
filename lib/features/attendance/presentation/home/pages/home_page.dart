@@ -1,3 +1,4 @@
+import 'package:daytrack_apps/features/attendance/presentation/attendance_card/pages/attendance_card.dart';
 import 'package:daytrack_apps/features/attendance/presentation/check_attendance/pages/check_attendance_page.dart';
 import 'package:daytrack_apps/features/authentication/presentation/user_info_header/widgets/user_info_header.dart';
 import 'package:daytrack_apps/features/timeline/presentation/announcement/widgets/widgets.dart';
@@ -40,16 +41,7 @@ class HomePage extends StatelessWidget {
                   horizontal: CalculateSize.getWidth(8),
                   vertical: CalculateSize.getHeight(8),
                 ),
-                child: HomeAttendanceCard(
-                  type: HomeAttendanceCardType.checkIn,
-                  title: 'Saatnya Check-In',
-                  subtitle: '21:13 WIB',
-                  actionText: 'Check-In',
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    ConstantsValue.attendanceRoute,
-                  ),
-                ),
+                child: AttendanceCard(),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(

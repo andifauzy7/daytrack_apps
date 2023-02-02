@@ -6,3 +6,15 @@ abstract class CheckAttendanceEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class CheckAttendanceFetchData extends CheckAttendanceEvent {}
+
+class CheckAttendanceNextStep extends CheckAttendanceEvent {
+  final int answer;
+
+  const CheckAttendanceNextStep({required this.answer});
+}
+
+class CheckAttendancePreviousStep extends CheckAttendanceEvent {}
+
+class CheckAttendanceSubmit extends CheckAttendanceEvent {}

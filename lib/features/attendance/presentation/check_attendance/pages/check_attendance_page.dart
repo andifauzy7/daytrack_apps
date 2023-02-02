@@ -1,94 +1,28 @@
-import 'package:daytrack_apps/gen/colors.gen.dart';
-import 'package:daytrack_apps/shared/calculate_size.dart';
-import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
+import 'package:daytrack_apps/core/service_locator/service_locator.dart';
+import 'package:daytrack_apps/features/attendance/domain/entities/attendance_record.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/bloc/check_attendance_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/widgets.dart';
 
-class CheckAttendancePage extends StatefulWidget {
+class CheckAttendancePage extends StatelessWidget {
   const CheckAttendancePage({super.key});
 
   @override
-  State<CheckAttendancePage> createState() => _CheckAttendancePageState();
-}
-
-class _CheckAttendancePageState extends State<CheckAttendancePage> {
-  int index = 0;
-
-  String getTitle() {
-    if (index == 0) {
-      return 'Kondisi';
-    }
-
-    if (index == 1) {
-      return 'Lokasi';
-    }
-
-    if (index == 2) {
-      return 'Survey';
-    }
-
-    return '';
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (index == 0) {
-          return true;
-        } else {
-          setState(() {
-            index -= 1;
-          });
-          return false;
-        }
-      },
-      child: Scaffold(
-        appBar: index != 3
-            ? AppBar(
-                title: Text(
-                  getTitle(),
-                ),
-              )
-            : null,
-        body: IndexedStack(index: index, children: [
-          AttendanceCondition(
-            onNext: (val) {
-              print(val);
-              setState(() {
-                index += 1;
-              });
-            },
-          ),
-          AttendanceLocation(
-            onNext: (val) {
-              print(val);
-              setState(() {
-                index += 1;
-              });
-            },
-            onPrevious: () => setState(() {
-              index -= 1;
-            }),
-          ),
-          AttendanceSurvey(
-            onNext: (val) {
-              print(val);
-              _showMyDialog();
-            },
-            onPrevious: () => setState(() {
-              index -= 1;
-            }),
-          ),
-          AttendanceFinished(
-            onFinished: () => Navigator.pop(context),
-          )
-        ]),
-      ),
+    AttendanceRecord? record =
+        ModalRoute.of(context)?.settings.arguments as AttendanceRecord?;
+
+    print(record.toString());
+
+    return BlocProvider(
+      create: (_) => sl.get<CheckAttendanceBloc>(),
+      child: const CheckAttendanceBody(),
     );
   }
 
+/*
   Future<void> _showMyDialog() async {
     TextStyle bodyStyle = Theme.of(context).textTheme.caption!.copyWith(
           color: ColorFamily.blackPrimary,
@@ -160,9 +94,6 @@ class _CheckAttendancePageState extends State<CheckAttendancePage> {
                   child: DTElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      setState(() {
-                        index += 1;
-                      });
                     },
                     text: 'Check-In',
                     type: DTElevatedButtonType.primary,
@@ -175,4 +106,5 @@ class _CheckAttendancePageState extends State<CheckAttendancePage> {
       },
     );
   }
+  */
 }

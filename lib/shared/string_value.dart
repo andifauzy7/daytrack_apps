@@ -58,4 +58,13 @@ class StringValue {
   static const announceTitleThird = 'Bonus Akhir Tahun';
   static const announceSubtitleThird =
       'Bonus akhir tahun akan cair pada tanggal 31 Januari 2023, dimohon seluruh pegawai mengikuti ketentuan sebagai berikut';
+
+  // Attendance
+  static const infoAttendance = 'Lihat Info Presensi';
+  static const finish = 'Selesai';
+  static const hasBeenCheckIn = 'Sudah Check-In pukul';
+  static const hasBeenCheckOut = 'Sudah Check-Out pukul';
+  static const update = 'Perbaharui';
+  static const location = 'Lokasi';
+  static const condition = 'Kondisi';
 }
