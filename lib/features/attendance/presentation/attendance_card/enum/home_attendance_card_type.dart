@@ -66,20 +66,14 @@ extension HomeAttendanceCardTypeExtension on HomeAttendanceCardType {
         );
       case HomeAttendanceCardType.checkOut:
         return Text(
-          StringValue.hasBeenCheckIn +
-              ((clock != null)
-                  ? DateFormat(ConstantsValue.time).format(clock)
-                  : ''),
+          '${StringValue.hasBeenCheckIn} ${(clock != null) ? DateFormat(ConstantsValue.time).format(clock) : ''}',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: textSubtitleStyle,
         );
       case HomeAttendanceCardType.finished:
         return Text(
-          StringValue.hasBeenCheckOut +
-              ((clock != null)
-                  ? DateFormat(ConstantsValue.time).format(clock)
-                  : ''),
+          '${StringValue.hasBeenCheckOut} ${(clock != null) ? DateFormat(ConstantsValue.time).format(clock) : ''}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: textSubtitleStyle,

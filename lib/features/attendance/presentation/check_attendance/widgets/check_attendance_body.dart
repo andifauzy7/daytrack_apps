@@ -1,5 +1,6 @@
 import 'package:daytrack_apps/features/attendance/presentation/check_attendance/bloc/check_attendance_bloc.dart';
 import 'package:daytrack_apps/shared/components/error_result_widget.dart';
+import 'package:daytrack_apps/shared/constants_value.dart';
 import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,9 +39,12 @@ class _CheckAttendanceBodyState extends State<CheckAttendanceBody> {
   Widget build(BuildContext context) {
     return BlocListener<CheckAttendanceBloc, CheckAttendanceState>(
       listener: (context, state) {
-        if (state is CheckAttendanceNavigateBack ||
-            state is CheckAttendanceFinished) {
+        if (state is CheckAttendanceNavigateBack) {
           Navigator.pop(context);
+        }
+
+        if (state is CheckAttendanceFinished) {
+          Navigator.popAndPushNamed(context, ConstantsValue.mainRoute);
         }
       },
       child: WillPopScope(
