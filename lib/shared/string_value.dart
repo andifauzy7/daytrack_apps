@@ -64,7 +64,15 @@ class StringValue {
   static const finish = 'Selesai';
   static const hasBeenCheckIn = 'Sudah Check-In pukul';
   static const hasBeenCheckOut = 'Sudah Check-Out pukul';
+  static const checkInFrom = 'Check-In dari ';
+  static const checkOutFrom = 'Check-In dari ';
   static const update = 'Perbaharui';
   static const location = 'Lokasi';
   static const condition = 'Kondisi';
+  static const workingHours = 'Jam Kerja';
+  static const survey = 'Survey';
+  static const locationDetail = 'Lokasi Detail';
+  static const checkIn = 'Check-In';
+  static const checkOut = 'Check-Out';
+  static const detail = 'Details';
 }

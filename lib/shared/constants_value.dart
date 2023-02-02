@@ -6,6 +6,7 @@ class ConstantsValue {
   static const dateTime = 'yyyy-MM-dd HH:mm:ss';
   static const time = 'HH:mm';
   static const dateTimeSentences = 'EEEE, dd MMMM yyyy HH:mm:ss';
+  static const dateSentences = 'EEEE, dd MMMM yyyy';
 
   // Routes.
   static const initialRoute = '/';
@@ -15,4 +16,5 @@ class ConstantsValue {
   static const editProfileRoute = '/edit';
   static const announcementRoute = '/announcement';
   static const attendanceRoute = '/attendance';
+  static const historyDetailRoute = '/history';
 }

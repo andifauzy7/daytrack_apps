@@ -80,4 +80,24 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       return Left(failure);
     }
   }
+
+  @override
+  Future<Either<Failure, List<AttendanceRecord>>>
+      getListAttendanceRecord() async {
+    try {
+      final records = await localDataSource.getListAttendanceRecord();
+
+      return Right(
+        records
+            .map(
+              (e) => AttendanceMapper
+                  .convertAttendanceRecordModelToAttendanceRecord(e),
+            )
+            .toList(),
+      );
+    } on CacheException {
+      final failure = CacheFailure();
+      return Left(failure);
+    }
+  }
 }

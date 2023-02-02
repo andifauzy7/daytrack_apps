@@ -102,15 +102,26 @@ class _AttendanceCardBodyState extends State<AttendanceCardBody> {
                                           HomeAttendanceCardType.checkOut)
                                       ? state.attendanceRecord?.checkIn
                                       : state.attendanceRecord?.checkOut),
-                              Text(
-                                StringValue.infoAttendance,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorFamily.tealPrimary,
-                                    ),
+                              InkWell(
+                                onTap: () {
+                                  if (state.attendanceRecord != null) {
+                                    Navigator.pushNamed(
+                                      context,
+                                      ConstantsValue.historyDetailRoute,
+                                      arguments: state.attendanceRecord,
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  StringValue.infoAttendance,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: ColorFamily.tealPrimary,
+                                      ),
+                                ),
                               ),
                             ],
                           ),

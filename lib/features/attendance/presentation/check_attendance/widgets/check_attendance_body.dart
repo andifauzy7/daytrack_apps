@@ -65,7 +65,12 @@ class _CheckAttendanceBodyState extends State<CheckAttendanceBody> {
                   );
                 }
 
-                return const Text(StringValue.finish);
+                if (state is CheckAttendanceLoaded &&
+                    state.indexPage == state.question.length) {
+                  return const Text(StringValue.finish);
+                }
+
+                return const Text('');
               },
             ),
           ),
@@ -90,6 +95,12 @@ class _CheckAttendanceBodyState extends State<CheckAttendanceBody> {
                     AttendanceSurvey(
                       initial: state.attendanceRecord.survey?.answer,
                       question: state.question[2],
+                      onNext: nextPage,
+                      onPrevious: prevPage,
+                    ),
+                    AttendanceSurvey(
+                      initial: state.attendanceRecord.workingHours?.answer,
+                      question: state.question[3],
                       onNext: nextPage,
                       onPrevious: prevPage,
                     ),

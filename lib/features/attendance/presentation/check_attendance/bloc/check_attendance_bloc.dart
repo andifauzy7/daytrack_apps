@@ -4,6 +4,7 @@ import 'package:daytrack_apps/features/attendance/domain/entities/question.dart'
 import 'package:daytrack_apps/features/attendance/domain/usecases/get_questions_usecase.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/set_attendace_record_usecase.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/update_attendace_record_usecase.dart';
+import 'package:daytrack_apps/features/attendance/presentation/check_attendance/enum/check_attendance_step.dart';
 import 'package:daytrack_apps/features/attendance/presentation/check_attendance/pages/check_attendance_page.dart';
 import 'package:daytrack_apps/features/authentication/domain/entities/user.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/get_profile_usecase.dart';
@@ -11,7 +12,6 @@ import 'package:daytrack_apps/shared/determine_position.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
 part 'check_attendance_event.dart';
 part 'check_attendance_state.dart';
@@ -27,6 +27,7 @@ class CheckAttendanceBloc
   late final User user;
   late Position position;
   late List<Question> question;
+  late CheckAttendanceArgs args;
   AttendanceRecord attendanceRecord = AttendanceRecord();
 
   CheckAttendanceBloc({
@@ -46,7 +47,7 @@ class CheckAttendanceBloc
     Emitter<CheckAttendanceState> emit,
   ) async {
     emit(CheckAttendanceLoading());
-
+    print(attendanceRecord.toString());
     if (attendanceRecord.checkIn == null) {
       attendanceRecord.checkIn = DateTime.now();
       final setAttendance = await setAttendanceRecordUsecase(
@@ -61,6 +62,9 @@ class CheckAttendanceBloc
         (valueUser) => emit(CheckAttendanceFinished()),
       );
     } else {
+      if (args.type == CheckAttendanceType.checkOut) {
+        attendanceRecord.checkOut = DateTime.now();
+      }
       final updateAttendance = await updateAttendanceRecordUsecase(
         UpdateAttendanceParams(attendanceRecord: attendanceRecord),
       );
@@ -97,8 +101,15 @@ class CheckAttendanceBloc
       // Survey
       attendanceRecord.survey = question[indexPage];
     }
+    if (indexPage == 3) {
+      // Working Hour
+      attendanceRecord.workingHours = question[indexPage];
+    }
 
     indexPage += 1;
+    if (indexPage == 3 && args.type != CheckAttendanceType.checkOut) {
+      indexPage += 1;
+    }
 
     emit(
       CheckAttendanceLoaded(
@@ -136,9 +147,12 @@ class CheckAttendanceBloc
   ) async {
     emit(CheckAttendanceLoading());
     position = await determinePosition();
-
+    args = event.args;
     if (event.args.attendanceRecord != null) {
       attendanceRecord = event.args.attendanceRecord!;
+      if (event.args.type == CheckAttendanceType.checkOut) {
+        indexPage = 3;
+      }
     } else {
       attendanceRecord.dateTime = DateTime.now();
     }

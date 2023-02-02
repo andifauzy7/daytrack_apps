@@ -15,20 +15,6 @@ class UpdateAttendance extends StatelessWidget {
   final AttendanceRecord? attendanceRecord;
   final VoidCallback onUpdate;
 
-  String _condition() {
-    int answer = attendanceRecord?.condition?.answer ?? 0;
-    String emoji = attendanceRecord?.condition?.option[answer].emoji ?? '';
-    String content = attendanceRecord?.condition?.option[answer].body ?? '';
-    return '$emoji $content';
-  }
-
-  String _location() {
-    int answer = attendanceRecord?.location?.answer ?? 0;
-    String emoji = attendanceRecord?.location?.option[answer].emoji ?? '';
-    String content = attendanceRecord?.location?.option[answer].body ?? '';
-    return '$emoji $content';
-  }
-
   @override
   Widget build(BuildContext context) {
     final bodyStyle = Theme.of(context).textTheme.caption!.copyWith(
@@ -53,7 +39,7 @@ class UpdateAttendance extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  _condition(),
+                  attendanceRecord?.getCondition() ?? '',
                   style: bodyStyle,
                 ),
               ],
@@ -70,7 +56,7 @@ class UpdateAttendance extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  _location(),
+                  attendanceRecord?.getLocation() ?? '',
                   style: bodyStyle,
                 ),
               ],

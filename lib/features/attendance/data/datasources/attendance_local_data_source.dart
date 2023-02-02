@@ -86,6 +86,18 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
           ),
         ],
       ),
+      QuestionModel(
+        title: 'Jam Kerja',
+        question: 'Pilihan jam kerja kamu?',
+        option: [
+          OptionAnswerModel(
+            body: '08.00 - 16.00',
+          ),
+          OptionAnswerModel(
+            body: '07.00 - 15.00',
+          ),
+        ],
+      ),
     ];
     return Future.value(question);
   }
