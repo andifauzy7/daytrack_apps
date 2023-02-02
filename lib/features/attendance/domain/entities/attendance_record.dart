@@ -1,6 +1,7 @@
 import 'package:daytrack_apps/features/attendance/domain/entities/question.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class AttendanceRecord extends Equatable {
   DateTime? dateTime;
   Question? condition;

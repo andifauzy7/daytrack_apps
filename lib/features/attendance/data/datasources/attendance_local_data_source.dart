@@ -5,8 +5,6 @@ import 'package:daytrack_apps/features/attendance/data/models/attendance_record_
 import 'package:daytrack_apps/features/attendance/data/models/option_answer_model.dart';
 import 'package:daytrack_apps/features/attendance/data/models/question_model.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
-import 'package:daytrack_apps/shared/constants_value.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: constant_identifier_names
@@ -170,9 +168,6 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
   @override
   Future<bool> updateAttendanceRecord(
       AttendanceRecordModel attendanceRecordModel) {
-    final dateTimeString = DateFormat(ConstantsValue.date).format(
-      attendanceRecordModel.dateTime!,
-    );
     List<AttendanceRecordModel> attendances = [];
 
     final getRecordResult =

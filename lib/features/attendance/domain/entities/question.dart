@@ -1,6 +1,7 @@
 import 'package:daytrack_apps/features/attendance/domain/entities/option_answer.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class Question extends Equatable {
   final String title;
   final String question;
