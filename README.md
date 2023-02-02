@@ -1,16 +1,24 @@
-# daytrack_apps
+# Daytrack App
 
-A new Flutter project.
+Record Attendance
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for a Flutter application. Use local storage (record attendance, profile, etc) and remote (latest news from public API) to get data.
 
-A few resources to get you started if this is your first Flutter project:
+## Login
+Use `andi@daytrack.com` (email) & a12345678 (password)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Feature Implemented
+- Show splash screen and onboarding page.
+- Check-In, Update & Check-Out attendance.
+- Update profile (Include avatar).
+- Get location from device (use FlutterMap, Geocoding & Geolocator).
+- Show latest news.
+- Show announcement from company.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Architecture
+- Clean Architecture
+
+## Project Structure
+<img src="resources/Clean-Architecture-Flutter-Diagram.webp" width='400'>
