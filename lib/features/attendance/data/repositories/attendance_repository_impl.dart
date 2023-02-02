@@ -65,4 +65,19 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       return Left(failure);
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> updateAttendanceRecord(
+      AttendanceRecord attendanceRecord) async {
+    try {
+      final result = await localDataSource.updateAttendanceRecord(
+        AttendanceMapper.convertAttendanceRecordToAttendanceRecordModel(
+            attendanceRecord),
+      );
+      return Right(result);
+    } on CacheException {
+      final failure = CacheFailure();
+      return Left(failure);
+    }
+  }
 }

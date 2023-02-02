@@ -6,6 +6,7 @@ import 'package:daytrack_apps/features/attendance/domain/repositories/attendance
 import 'package:daytrack_apps/features/attendance/domain/usecases/get_attendance_record_usecase.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/get_questions_usecase.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/set_attendace_record_usecase.dart';
+import 'package:daytrack_apps/features/attendance/domain/usecases/update_attendace_record_usecase.dart';
 import 'package:daytrack_apps/features/attendance/presentation/attendance_card/bloc/attendance_card_bloc.dart';
 import 'package:daytrack_apps/features/attendance/presentation/check_attendance/bloc/check_attendance_bloc.dart';
 
@@ -30,6 +31,11 @@ class AttendanceDependencies {
     );
     sl.registerLazySingleton<GetAttendanceRecordUsecase>(
       () => GetAttendanceRecordUsecase(
+        sl(),
+      ),
+    );
+    sl.registerLazySingleton<UpdateAttendanceRecordUsecase>(
+      () => UpdateAttendanceRecordUsecase(
         sl(),
       ),
     );
@@ -64,6 +70,7 @@ class AttendanceDependencies {
         getQuestionsUsecase: sl(),
         getProfileUsecase: sl(),
         setAttendanceRecordUsecase: sl(),
+        updateAttendanceRecordUsecase: sl(),
       ),
     );
     sl.registerFactory(

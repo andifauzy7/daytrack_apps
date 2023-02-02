@@ -5,6 +5,8 @@ import 'package:daytrack_apps/features/attendance/data/models/attendance_record_
 import 'package:daytrack_apps/features/attendance/data/models/option_answer_model.dart';
 import 'package:daytrack_apps/features/attendance/data/models/question_model.dart';
 import 'package:daytrack_apps/gen/assets.gen.dart';
+import 'package:daytrack_apps/shared/constants_value.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: constant_identifier_names
@@ -13,6 +15,8 @@ const CACHED_ATTENDANCE_RECORD = 'CACHED_ATTENDANCE_RECORD';
 abstract class AttendanceLocalDataSource {
   Future<List<QuestionModel>> getQuestions();
   Future<bool> cacheAttendanceRecord(
+      AttendanceRecordModel attendanceRecordModel);
+  Future<bool> updateAttendanceRecord(
       AttendanceRecordModel attendanceRecordModel);
   Future<List<AttendanceRecordModel>> getListAttendanceRecord();
   Future<AttendanceRecordModel> getAttendanceRecord(DateTime dateTime);
@@ -149,5 +153,35 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
 
       return Future.value(record);
     }
+  }
+
+  @override
+  Future<bool> updateAttendanceRecord(
+      AttendanceRecordModel attendanceRecordModel) {
+    final dateTimeString = DateFormat(ConstantsValue.date).format(
+      attendanceRecordModel.dateTime!,
+    );
+    List<AttendanceRecordModel> attendances = [];
+
+    final getRecordResult =
+        sharedPreferences.getString(CACHED_ATTENDANCE_RECORD);
+    if (getRecordResult != null) {
+      attendances.addAll(
+        (jsonDecode(getRecordResult) as List)
+            .map((data) => AttendanceRecordModel.fromJson(data))
+            .toList(),
+      );
+    }
+
+    int index = attendances.indexWhere(
+        (element) => element.dateTime == attendanceRecordModel.dateTime);
+    attendances[index] = attendanceRecordModel;
+    final attendanceRecord = sharedPreferences.setString(
+      CACHED_ATTENDANCE_RECORD,
+      jsonEncode(
+        attendances,
+      ),
+    );
+    return Future.value(attendanceRecord);
   }
 }

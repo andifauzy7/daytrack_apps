@@ -3,6 +3,7 @@ import 'package:daytrack_apps/features/attendance/domain/entities/attendance_rec
 import 'package:daytrack_apps/features/attendance/domain/entities/question.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/get_questions_usecase.dart';
 import 'package:daytrack_apps/features/attendance/domain/usecases/set_attendace_record_usecase.dart';
+import 'package:daytrack_apps/features/attendance/domain/usecases/update_attendace_record_usecase.dart';
 import 'package:daytrack_apps/features/attendance/presentation/check_attendance/pages/check_attendance_page.dart';
 import 'package:daytrack_apps/features/authentication/domain/entities/user.dart';
 import 'package:daytrack_apps/features/authentication/domain/usecases/get_profile_usecase.dart';
@@ -20,6 +21,7 @@ class CheckAttendanceBloc
   final GetQuestionsUsecase getQuestionsUsecase;
   final GetProfileUsecase getProfileUsecase;
   final SetAttendanceRecordUsecase setAttendanceRecordUsecase;
+  final UpdateAttendanceRecordUsecase updateAttendanceRecordUsecase;
 
   int indexPage = 0;
   late final User user;
@@ -31,6 +33,7 @@ class CheckAttendanceBloc
     required this.getQuestionsUsecase,
     required this.getProfileUsecase,
     required this.setAttendanceRecordUsecase,
+    required this.updateAttendanceRecordUsecase,
   }) : super(CheckAttendanceInitial()) {
     on<CheckAttendanceFetchData>(_fetchDataHandle);
     on<CheckAttendancePreviousStep>(_fetchPreviousStep);
@@ -43,18 +46,33 @@ class CheckAttendanceBloc
     Emitter<CheckAttendanceState> emit,
   ) async {
     emit(CheckAttendanceLoading());
-    attendanceRecord.checkIn = DateTime.now();
-    final setAttendance = await setAttendanceRecordUsecase(
-      SetAttendanceParams(attendanceRecord: attendanceRecord),
-    );
-    setAttendance.fold(
-      (err) => emit(
-        CheckAttendanceError(
-          errorMessage: err.toString(),
+
+    if (attendanceRecord.checkIn == null) {
+      attendanceRecord.checkIn = DateTime.now();
+      final setAttendance = await setAttendanceRecordUsecase(
+        SetAttendanceParams(attendanceRecord: attendanceRecord),
+      );
+      setAttendance.fold(
+        (err) => emit(
+          CheckAttendanceError(
+            errorMessage: err.toString(),
+          ),
         ),
-      ),
-      (valueUser) => emit(CheckAttendanceFinished()),
-    );
+        (valueUser) => emit(CheckAttendanceFinished()),
+      );
+    } else {
+      final updateAttendance = await updateAttendanceRecordUsecase(
+        UpdateAttendanceParams(attendanceRecord: attendanceRecord),
+      );
+      updateAttendance.fold(
+        (err) => emit(
+          CheckAttendanceError(
+            errorMessage: err.toString(),
+          ),
+        ),
+        (valueUser) => emit(CheckAttendanceFinished()),
+      );
+    }
   }
 
   Future<void> _fetchNextStep(

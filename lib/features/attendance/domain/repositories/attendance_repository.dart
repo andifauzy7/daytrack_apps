@@ -8,4 +8,6 @@ abstract class AttendanceRepository {
   Future<Either<Failure, AttendanceRecord>> getAttendanceRecord(DateTime date);
   Future<Either<Failure, bool>> setAttendanceRecord(
       AttendanceRecord attendanceRecord);
+  Future<Either<Failure, bool>> updateAttendanceRecord(
+      AttendanceRecord attendanceRecord);
 }
