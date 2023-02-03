@@ -75,4 +75,8 @@ class StringValue {
   static const checkIn = 'Check-In';
   static const checkOut = 'Check-Out';
   static const detail = 'Details';
+  static const next = 'Selanjutnya';
+  static const previous = 'Sebelumnya';
+  static const goodWork = 'Selamat Bekerja';
+  static const goodRest = 'Selamat Istirahat';
 }

@@ -2,6 +2,7 @@ import 'package:daytrack_apps/features/attendance/domain/entities/question.dart'
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
+import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets.dart';
@@ -79,7 +80,7 @@ class _AttendanceSurveyState extends State<AttendanceSurvey> {
                   Expanded(
                     child: DTElevatedButton(
                       onPressed: widget.onPrevious,
-                      text: 'Sebelumnya',
+                      text: StringValue.previous,
                       type: DTElevatedButtonType.secondary,
                     ),
                   ),
@@ -94,7 +95,7 @@ class _AttendanceSurveyState extends State<AttendanceSurvey> {
                         else if (widget.initial != null)
                           {widget.onNext(widget.initial!)}
                       },
-                      text: 'Selesai',
+                      text: StringValue.finish,
                       type: (selected ?? widget.initial) != null
                           ? DTElevatedButtonType.primary
                           : DTElevatedButtonType.disabled,

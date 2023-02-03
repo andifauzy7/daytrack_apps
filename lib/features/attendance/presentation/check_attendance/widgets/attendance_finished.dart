@@ -5,6 +5,7 @@ import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
+import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
 
 class AttendanceFinished extends StatelessWidget {
@@ -62,8 +63,8 @@ class AttendanceFinished extends StatelessWidget {
                     ),
                     Text(
                       (type == CheckAttendanceType.checkOut)
-                          ? 'Selamat Isitrahat'
-                          : 'Selamat Bekerja',
+                          ? StringValue.goodRest
+                          : StringValue.goodWork,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption!.copyWith(
                             color: ColorFamily.blackPrimary,
@@ -90,7 +91,7 @@ class AttendanceFinished extends StatelessWidget {
                     ),
                     DTElevatedButton(
                       onPressed: onFinished,
-                      text: 'Selesai',
+                      text: StringValue.finish,
                       type: DTElevatedButtonType.primary,
                     )
                   ]),

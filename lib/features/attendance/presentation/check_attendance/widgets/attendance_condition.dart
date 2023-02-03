@@ -4,6 +4,7 @@ import 'package:daytrack_apps/gen/assets.gen.dart';
 import 'package:daytrack_apps/gen/colors.gen.dart';
 import 'package:daytrack_apps/shared/calculate_size.dart';
 import 'package:daytrack_apps/shared/components/dt_elevated_button.dart';
+import 'package:daytrack_apps/shared/string_value.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets.dart';
@@ -109,7 +110,7 @@ class _AttendanceConditionState extends State<AttendanceCondition> {
                           else if (widget.initial != null)
                             {widget.onNext(widget.initial!)}
                         },
-                        text: 'Selanjutnya',
+                        text: StringValue.next,
                         type: (selected ?? widget.initial) != null
                             ? DTElevatedButtonType.primary
                             : DTElevatedButtonType.disabled,
